@@ -46,7 +46,7 @@ fonts:
 
 * Nimbus Mono L (Regular, Oblique, Bold, Bold Oblique)
 * Nimbus Sans L (Regular, Oblique, Bold, Bold Oblique)
-* Nimbus Sans L Condensed (Regular, Oblique, Bold, Bold Oblique)
+* Nimbus Sans L Narrow (Regular, Oblique, Bold, Bold Oblique)
 * Nimbus Roman No9 L (Roman, Italic, Bold, Bold Italic)
 * URW Gothic L Book (Book, Book Oblique, Demi, Demi Oblique)
 * URW Bookman (Light, Light Italic, Demi, Demi Italic)
@@ -140,3 +140,24 @@ that PCTeX will adjust them so they do.
 For the time being, I personally still use the "Base 35" Type 1 fonts when math
 is a need (and Intel Clear Sans when math is not a need) but I suspect in a few
 years that will change.
+
+The TeX Gyre font mapping to "Base 35" fonts:
+
+* TeX Gyre Cursor *[Courier]*
+* TeX Gyre Heros *[Helvetica]*
+* TeX Gyre Heros Condensed *[Helvetica Narrow]*
+* TeX Gyre Termes *[Times]*
+* TeX Gyre Adventor *[ITC Avant Garde]*
+* TeX Gyre Bonum *[ITC Bookman]*
+* TeX Gyre Schola *[New Century Schoolbook]*
+* TeX Gyre Pagella *[Palatino]*
+* TeX Gyre Chancery *[ITC Chancery]*
+
+It appears that at this time, the TeX Gyre collection does not have equivalents
+for Symbol or ITC Zapf Dingbats. Many of the unicode codepoints covered by
+glyphs in those two fonts are however covered in the TeX Gyre fonts themselves
+(such as Greek) or in the TeX Gyre math fonts.
+
+It is important to note that while very similar, TeX Gyre fonts are not metric
+compatible with the "Base 35" fonts. They are extensions and improvements upon
+those fonts *without* the restraint of needing to keep metric compatibility.

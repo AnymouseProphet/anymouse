@@ -10,8 +10,11 @@
 \newcommand{\ampfontcollection}{base35}
 \newcommand{\ampmonofont}{spacemono}
 \newcommand{\canonicalversion}{no}
+\DeclareOption{base35}{\renewcommand{\ampfontcollection}{base35}}% currently default
 \DeclareOption{texgyre}{\renewcommand{\ampfontcollection}{texgyre}}
+\DeclareOption{spacemono}{\renewcommand{\ampmonofont}{spacemono}}% currently default
 \DeclareOption{courier}{\renewcommand{\ampmonofont}{courier}}
+\DeclareOption{cursor}{\renewcommand{\ampmonofont}{courier}}% cursor is currently alias for courier
 \DeclareOption{canonical}{\renewcommand{\canonicalversion}{yes}}
 \DeclareOption*{\PackageWarning{anymouse}{Unknown ‘\CurrentOption’}}
 \ProcessOptions\relax
