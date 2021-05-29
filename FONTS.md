@@ -1,25 +1,25 @@
 Stuff About Fonts
 =================
 
-Back in the early days of Postscript, portable storage space was at a premium
+Back in the early days of PostScript, portable storage space was at a premium
 and network bandwidth was at a premium. Documents often specified what fonts
 they used but did not actually embed the font---the renderer had to have the
 right font available or the document could not properly render.
 
-To address this, when Adobe first created the Postscript specification, they
-specified 13 base postscript fonts:
+To address this, when Adobe first created the PostScript specification, they
+specified 13 base PostScript fonts:
 
 * Courier (Regular, Oblique, Bold, Bold Oblique)
 * Helvetica (Regular, Oblique, Bold, Bold Oblique)
 * Times (Roman, Italic, Bold, Bold Italic)
 * Symbol
 
-Any Postscript compliant renderer could properly render those fonts without them
-embedded in the Postscript document and without them needing to be supplied
+Any PostScript compliant renderer could properly render those fonts without them
+embedded in the PostScript document and without them needing to be supplied
 separately.
 
-With the success of Postscript, Postscript Level 2 was released and Postscript
-level 2 had an expanded set of 35 fonts that every Postscript Level 2 compliant
+With the success of PostScript, PostScript Level 2 was released and PostScript
+level 2 had an expanded set of 35 fonts that every PostScript Level 2 compliant
 renderer had to support without the font embedded:
 
 * Courier (Regular, Oblique, Bold, Bold Oblique)
@@ -34,11 +34,11 @@ renderer had to support without the font embedded:
 * ITC Zapf Chancery (Medium Italic)
 * ITC Zapf Dingbats
 
-Those are what are often referred to as the "Base 35" Postscript fonts. It is
-a superset of the original Postscript "Base 13" fonts.
+Those are what are often referred to as the "Base 35" PostScript fonts. It is
+a superset of the original PostScript "Base 13" fonts.
 
-Postscript Level 2 was very popular but licensing 35 commercial fonts to have
-Postscript Level 2 compliance could be very expensive and was also problematic
+PostScript Level 2 was very popular but licensing 35 commercial fonts to have
+PostScript Level 2 compliance could be very expensive and was also problematic
 to the free software world.
 
 This resulted in URW developing fully metric compatible clones of the "Base 35"
@@ -58,7 +58,7 @@ fonts:
 
 A font expert can distinguish the URW "Base 35" glyphs from the genuine Adobe
 "Base 35" glyphs but the font metrics are identical allowing the URW fonts to
-be used when a Postscript (or PDF) document uses the Adobe Base 35 fonts but
+be used when a PostScript (or PDF) document uses the Adobe Base 35 fonts but
 does not have them embedded.
 
 The URW "Base 35" fonts saw the biggest distribution on UNIX and GNU systems
@@ -74,7 +74,7 @@ If you have the genuine Adobe "Base 35" fonts you can configure LaTeX to use
 them instead of the URW variants. I bought my set I think in 2002 as part of a
 bundle Adobe was selling to typography students, but I do not believe Adobe
 continues to license them to the general public. They might, but I have not seen
-them offered in a long time, Type 1 Postscript fonts are on their way out as the
+them offered in a long time, Type 1 PostScript fonts are on their way out as the
 OpenType font specification solves a lot of problems.
 
 PDF Fonts
@@ -89,9 +89,9 @@ specifies a set of 14 "Standard Fonts":
 * Symbol
 * ITC Zapf Dingbats
 
-These "Standard Fonts" are identical to the original Postscript "Base 13" with
+These "Standard Fonts" are identical to the original PostScript "Base 13" with
 the addition of ITC Zapf Dingbats and thus the 14 "Standard Fonts" are a subset
-of the Postscript Level 2 "Base 35" fonts.
+of the PostScript Level 2 "Base 35" fonts.
 
 Furthermore, while PDF viewers on UNIX and GNU systems usually have the full set
 of URW "Base 35" fonts available to them thanks to the `ghostscript` engine they
