@@ -43,7 +43,7 @@ available and if not, it will throw a warning and use a monospace font from the
 Main Document Font collection instead.
 
 When `courier` is specified as a package option or when the LaTeX `spacemono`
-package is not available, it will use Courier (or Nimbus Sans L) if the Main
+package is not available, it will use Courier (or Nimbus Mono L) if the Main
 Document Fonts option is set to `base35` or it will use TeX Gyre-Cursor if the
 Main Document Fonts option is set to `texgyre`.
 
