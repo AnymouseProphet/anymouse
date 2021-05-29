@@ -6,7 +6,7 @@ Anymouse Prophet in his political ramblings.
 
 Dual-License LPPL and MIT. Whichever floats your boat.
 
-Install the falls within `texmf-tree` into your TEXMF-LOCAL directory using the
+Install the files within `texmf-tree` into your TEXMF-LOCAL directory using the
 same structure and then run the `texhash` command so that your LaTeX system
 knows about them.
 
@@ -73,8 +73,81 @@ number is not added and only monochrome is used so that it is cheap to print.
 When the `canonical` option is passed to the `anymouse` package, the
 `canonicalversion` macro is set to `yes`. Otherwise it is defined as `no`.
 
+### Options Summary
 
-Package Macros
---------------
+When no options are selected, `anymouse.sty` defaults to using the so-called
+"Base35" fonts (URW clones unless you have the genuine Adobe versions *and*
+have set up LaTeX to use them) *unless* MathTime Pro 2 is not available, in
+which case it then uses the TeX Gyre fonts.
 
-To be described later.
+When no options are selected, `anymouse.sty` defaults to using the Space Mono
+font for monospace *unless* Space Mono is not available, in which case it will
+use the monospace font either from the "Base35" fonts or the TeX Gyre fonts.
+
+When no options are selected, `anymouse.sty` will set the `\canonicalversion`
+macro to `no`.
+
+When the `texgyre` option is specified to `anymouse.sty` then the TeX Gyre fonts
+will be used as the main fonts regardless of whether or not MathTime Pro is
+available.
+
+When the `courier` option is specified to `anymouse.sty` the monospace font from
+either the "Base35" collection or from the TeX Gyre fonts will be used
+regardless of whether or not Space Mono is available.
+
+When the `canonical` option is specified to `anymouse.sty` then the
+`\canonicalversion` macro is set to `yes`. Otherwise it is set to `no`.
+
+
+Usage Example
+-------------
+
+    \documentclass[twoside, letterpaper, fontsize=14pt]{scrartcl}
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage[texgyre,canonical]{anymouse}
+    % rest of preamble
+
+
+Package Macro Commands
+----------------------
+
+These are the macro commands defined by `anymouse.sty` that are intended to be
+available for use in the LaTeX document.
+
+This section is not yet finished.
+
+### Canonical Version
+
+The `\canonicalversion` command will expand to either `yes` or `no`. This is
+useful for telling the LaTeX compiler whether or not it should use colored
+links, include the ISBN barcode, or include the cryptography signature form.
+
+Note that `anymouse.sty` already loads the [soul](https://www.ctan.org/pkg/soul)
+package and then when `\canonicalversion` is `yes` then the `\hl{}` command from
+that package is redefined to the `\ul{}` command also from that package.
+
+### Chancery Script Font
+
+The `\ampscriptfont` command expands to select the Chancery font from the Main
+Document Fonts collection. The intended use is withing a
+`\begin{quote}...\end{quote}` environment when quoting a document of historical
+and cultural significance, such as a snipped from the Declaration of
+Independence.
+
+Be careful with its usage. A fancy chancery font can inspire an emotion of
+reverence and is therefore a very useful typesetting tool, but chancery fonts
+can also be very difficult for some people to read---especially those with
+visual disabilities. Use it sparingly and only with text that most people with a
+high school education will be somewhat familiar with.
+
+#### Example Usage
+
+    \begin{quote}
+    {\ampscriptfont%
+    Fourscore and seven years ago our fathers brought forth on this continent a
+    new nation, conceived in liberty, and dedicated to the proposition that all
+    men are created equal. Now we are engaged in a great civil war, testing
+    whether that nation, or any nation so conceived and so dedicated, can long
+    endure.} 
+    \end{quote}
