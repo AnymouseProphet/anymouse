@@ -1,0 +1,15 @@
+--- ean13isbn.sty.orig	2021-01-24 14:30:07.000000000 -0800
++++ ean13isbn.sty	2021-05-29 16:44:27.354293623 -0700
+@@ -89,10 +89,10 @@
+     \def\zw@next##1##2##3##4.{\zw@isbnfsize ##1.##2##3##4\zw@isbnfsize}
+     \expandafter\zw@next\zw@scale.
+   \fi
+-  \def\zw@isbnfont{\usefont{OT1}{phv}{c}{n}\fontsize{\zw@isbnfsize}{\zw@isbnfsize}\selectfont}
++  \def\zw@isbnfont{\usefont{T1}{qhv}{c}{n}\fontsize{\zw@isbnfsize}{\zw@isbnfsize}\selectfont}
+     \setbox\zw@test@box=\hbox{\zw@isbnfont0}%
+     \ifdim\wd\zw@test@box>.65\ht\zw@test@box
+-      \def\zw@isbnfont{\usefont{OT1}{phv}{mc}{n}\fontsize{\zw@isbnfsize}{\zw@isbnfsize}\selectfont}
++      \def\zw@isbnfont{\usefont{T1}{qhv}{mc}{n}\fontsize{\zw@isbnfsize}{\zw@isbnfsize}\selectfont}
+     \fi}
+ \zw@eansetup@params
+ 
