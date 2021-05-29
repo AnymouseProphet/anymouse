@@ -10,6 +10,9 @@ Install the files within `texmf-tree` into your TEXMF-LOCAL directory using the
 same structure and then run the `texhash` command so that your LaTeX system
 knows about them.
 
+This package will grow over time.
+
+
 Package Options
 ---------------
 
@@ -151,3 +154,92 @@ high school education will be somewhat familiar with.
     whether that nation, or any nation so conceived and so dedicated, can long
     endure.} 
     \end{quote}
+
+### Condensed Font
+
+The `\ampcondensedfont` command expands to select the Narrow or Condensed font
+from the Main Document Fonts collection. The intended use is wherever such a
+font is needed.
+
+#### Example Usage
+
+    {\ampcondensedfont This sentence \emph{will be} condensed.}
+
+### Bibliography in Footer
+
+What the Anymouse Prophet publishes should not be considered academic works and
+most of what I reference are web pages archived at archive.org. For that reason
+I do not use an actual "Works Cited" in most of my ramblings but use a footnote
+as a hyperlink.
+
+The few times I do reference a book, I reference it as a footnote using the
+`\footbib{}` command which takes six arguments:
+
+1. Title
+2. Author
+3. Page(s) Referenced
+4. Publication year
+5. Publisher
+6. ISBN
+
+The `\footbib{}` macro then formats it for the footnate of the page.
+
+#### Example Usage
+
+    \footbib{From Christ to Confucius}{Albert Monshan Wu}{page 261}{2016}{Yale University Press}{978-0-300-21707-0}
+
+### Hyperlink Reference
+
+The `footurl{}` macro command gives a hyperlink URL reference as a footnote.
+
+#### Example Usage
+
+    \footurl{https://bit.ly/33MUNCY}
+
+### Inline Hyperlink
+
+When using an inline hyperlink, it is important to also make a footnote with
+the hyperlink for those reading a printed copy.
+
+The `amphref{}` macro command does this and like the standard `href{}` command
+it takes two arguments: The hyperlink, and the text.
+
+#### Example Usage
+
+    The \amphref{https://www.tug.org/texlive/}{TeXLive} distribution of LaTeX
+    runs on just about every operating system currently in use.
+
+### Roman Numerals
+
+The `amprom{}` macro command turns an Arabic number into a Roman Numeral. It
+takes a single argument. I sometimes mess up when making Roman Numerals
+manually.
+
+#### Example Usage
+
+    Super Bowl \amprom{56} will be played on Sunday, February 13.
+
+### Money
+
+The `\usmoney{}` macro adds the dollar sign and the commas in the right places.
+It takes a single argument.
+
+#### Example Usage
+
+    Some people make \usmoney{900} a week, some people \usmoney{1200} a week,
+    and some people make \usmoney{12000} a week.
+
+In that example, in addition to adding the dollar sign, a comma separator would
+automatically be added to the last one making it typeset as `$12,000` but it
+would not be added to the first two where typography rules say no separator is
+needed (including `1200`).
+
+
+SIUnit Declarations
+-------------------
+
+For consistency across documents I like to use the
+[siunitx](https://ctan.org/pkg/siunitx) LaTeX package. Whenever I come across a
+unit that is not already defined by that package, I will define it at the end
+of the `anymouse.sty` file so that usage remains consistent.
+
