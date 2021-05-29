@@ -132,7 +132,7 @@ that package is redefined to the `\ul{}` command also from that package.
 The `\ampscriptfont` command expands to select the Chancery font from the Main
 Document Fonts collection. The intended use is within a
 `\begin{quote}...\end{quote}` environment when quoting a document of historical
-and cultural significance, such as a snipped from the Declaration of
+and cultural significance, such as a snippet from the Declaration of
 Independence.
 
 Be careful with its usage. A fancy chancery font can inspire an emotion of
