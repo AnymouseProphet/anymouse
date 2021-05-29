@@ -1,0 +1,97 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{anymouse}%
+[2021/05/28 v.0.1 loads fonts and custom macros for Anymouse Prophet publications]%
+\RequirePackage{ifthen}
+\RequirePackage{siunitx}
+\RequirePackage{letltxmacro}
+\RequirePackage{xcolor}
+\RequirePackage{soul}
+% default options
+\newcommand{\ampfontcollection}{base35}
+\newcommand{\ampmonofont}{spacemono}
+\newcommand{\canonicalversion}{no}
+\DeclareOption{texgyre}{\renewcommand{\ampfontcollection}{texgyre}}
+\DeclareOption{courier}{\renewcommand{\ampmonofont}{courier}}
+\DeclareOption{canonical}{\renewcommand{\canonicalversion}{yes}}
+\DeclareOption*{\PackageWarning{anymouse}{Unknown ‘\CurrentOption’}}
+\ProcessOptions\relax
+%
+\ifthenelse{\equal{\ampfontcollection}{base35}}{
+\IfFileExists{mtpro2.sty}{}{% else
+\PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
+\renewcommand{\ampfontcollection}{texgyre}
+}
+}{}
+%
+\ifthenelse{\equal{\ampmonofont}{spacemono}}{
+\IfFileExists{spacemono.sty}{}{% else
+\PackageWarning{anymouse}{Space Mono not available, substituting \ampfontcollection{} monospace font}
+\renewcommand{\ampmonofont}{courier}
+}
+}{}
+
+% used within quote environment for historic documents
+\newcommand{\ampscriptfont}{\fontfamily{pzc}\selectfont\large}
+% used within footnotes and LCCN
+\newcommand{\ampcondensedfont}{\fontfamily{phv}\fontseries{mc}\selectfont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the sans-serif and serif fonts %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\ampfontcollection}{base35}}{
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{ptm}
+\usepackage[lite]{mtpro2}
+}{% else use the TeX Gyre fonts instead of Postscript Base35
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\renewcommand{\ampscriptfont}{\fontfamily{qzc}\selectfont\large}
+\renewcommand{\ampcondensedfont}{\fontfamily{qhv}\fontseries{mc}\selectfont}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define the monospace font %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\ampmonofont}{spacemono}}{
+\usepackage{spacemono}
+}{% else
+\ifthenelse{\equal{\ampfontcollection}{base35}}{% use Courier or (Nimbus Mono L equivalent)
+\renewcommand{\ttdefault}{pcr}
+}{% else TeX Gyre-Cursor
+\renewcommand{\ttdefault}{qcr}
+}
+}
+% for reducing the monospace font size
+\LetLtxMacro\oldttfamily\ttfamily
+\DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
+\def\ttsize{\small}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define type of highlight %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\canonicalversion}{yes}}{}{
+\renewcommand*{\hl}{\ul}
+}
+
+%misc macros
+% bib in footnotes
+% #1 - Title
+% #2 - Author
+% #3 - Page or Pages
+% #4 - publication year
+% #5 - publisher
+% #6 - ISBN
+\newcommand{\footbib}[6]{%
+\footnote{\ampcondensedfont{\textit{#1} by #2; \textbf{#3}; (#4) #5. ISBN #6.}}%
+}% end new command
+\newcommand\footurl[1]{\footnote{\texttt{\footnotesize \href{#1}{#1}}}}
+% non-naked hyperlinks
+\newcommand{\amphref}[2]{\href{#1}{#2}\footurl{#1}}
+% convert to roman numerals
+\makeatletter
+\newcommand*{\amprom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+% for US money
+\newcommand{\usmoney}[1]{\$\num[group-separator={,}]{#1}}
+% units
+\DeclareSIUnit{\hour}{hr}
+\DeclareSIUnit{\year}{yr}
