@@ -95,7 +95,10 @@
 \newcommand{\footbib}[6]{%
 \footnote{\ampcondensedfont{\textit{#1} by #2; \textbf{#3}; (#4) #5. ISBN #6.}}%
 }% end new command
+% url in footnote
 \newcommand\footurl[1]{\footnote{\texttt{\footnotesize \href{#1}{#1}}}}
+% url in footnote with reference
+\newcommand\footlabelurl[2]{\footnote{\label{#1}\texttt{\footnotesize \href{#2}{#2}}}}
 % non-naked hyperlinks
 \newcommand{\amphref}[2]{\href{#1}{#2}\footurl{#1}}
 % convert to roman numerals
