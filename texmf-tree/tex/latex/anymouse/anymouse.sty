@@ -34,7 +34,9 @@
 }{}
 %
 \ifthenelse{\equal{\canonicalversion}{yes}}{
-\IfFileExists{digsig.sty}{}{%else turn canonical off
+\IfFileExists{digsig.sty}{
+\RequirePackage{ean13isbn}
+}{%else turn canonical off
 \PackageWarning{anymouse}{digsig.sty not available, turning canonical off}
 \renewcommand{\canonicalversion}{no}
 }
