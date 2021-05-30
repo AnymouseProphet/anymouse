@@ -135,11 +135,8 @@ own math fonts that are getting to be quite good and certainly are sufficient
 for the vast majority of math needs.
 
 The MathTime Pro 2 fonts may work just fine with TeX Gyre, but if not, I suspect
-that PCTeX will adjust them so they do.
-
-For the time being, I personally still use the "Base 35" Type 1 fonts when math
-is a need (and Intel Clear Sans when math is not a need) but I suspect in a few
-years that will change.
+that PCTeX will adjust them so they do. In my basic testing, MathTime Pro 2
+fonts did work with TeX Gyre.
 
 The TeX Gyre font mapping to "Base 35" fonts:
 

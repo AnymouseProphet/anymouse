@@ -13,6 +13,36 @@ knows about them.
 This package will grow over time.
 
 
+Supplemental Packages
+---------------------
+
+If you want this package to use the Adobe/URW PostScript Level 2 "Base 35" fonts
+then you *must* have the
+[MathTime Professional 2](https://www.pctex.com/mtpro2.html) fonts installed.
+The free "Lite" version is sufficient. Without that package, the TeX Gyre fonts
+are the only option.
+
+If you want this package to use
+[Space Mono](https://fonts.google.com/specimen/Space+Mono) as the monospace
+(typewriter) font then you *must* have the
+[SpaceMono-LaTeX](https://github.com/AnymouseProphet/SpaceMono-LaTeX) package
+installed. Without that package, the monospace font from either the "Base 35" or
+TeX Gyre is the only option.
+
+If you want this package to compile a Canonical version that you then digitally
+sign, you *must* have
+[digsig.sty](http://home.htp-tel.de/lottermose2/tex/dist/digsig.sty) installed.
+Some Linux distributions packages it as "latex-digsig" but that file is not part
+of TeXLive itself. If installing it manually, install it as
+`[TEXMF-LOCAL]/tex/latex/digsig/digsig.sty` and note that `anymouse.sty` only
+checks for the file, it does not actually load it because that package *must* be
+loaded *after* hyperref.
+
+After installing any new LaTeX packages, remember to run `texhash` and after
+installing new fonts, remember to run `updmap-sys --enable Map=whatever.map`
+where `whatever.map` is the map file for the new font package.
+
+
 Package Options
 ---------------
 
@@ -20,30 +50,23 @@ The package currently has three options.
 
 ### Main Document Fonts
 
-Defaults to `base35`. This option determines whether fonts from the Postscript
-Level 2 "Base35" fonts should be used or whether the very similar but slightly
-different fonts from the TeX Gyre collection should be used.
+Defaults to `texgyre`. This option determines whether fonts from the PostScript
+Level 2 "Base35" fonts should be used or whether the very similar but updated
+fonts from the TeX Gyre collection should be used.
 
-When set to the default `base35` the package will look to see if the
-[MathTime Pro 2](https://www.pctex.com/mtpro2.html) package is available and if
-it is not, it will throw a warning and use the TeX Gyre collection instead.
-
-The free Lite version of MathTime Pro 2 is suitable.
-
-When `texgyre` is specified as a package option or when MathTime Pro 2 is not
-available, the [TeX Gyre](https://ctan.org/pkg/tex-gyre) fonts are used instead
-of the Adobe/URW Base35 fonts.
+When set to the optional `base35` the package will look to see if the MathTime
+Pro 2 package is available and if it is not, it will throw a warning and use the
+TeX Gyre collection instead.
 
 ### Monospace (Typewriter) Font Family
 
 Defaults to `spacemono`. This option determines whether the monospace font
-should be [Space Mono](https://fonts.google.com/specimen/Space+Mono) or a
-monospace font from the Main Document Fonts collection.
+should be Space Mono or a monospace font from the Main Document Fonts
+collection.
 
 When set to the default `spacemono` the package will look to see if the LaTeX
-[spacemono](https://github.com/AnymouseProphet/SpaceMono-LaTeX) package is
-available and if not, it will throw a warning and use a monospace font from the
-Main Document Font collection instead.
+Space Mono package is available and if not, it will throw a warning and use a
+monospace font from the Main Document Font collection instead.
 
 When `courier` is specified as a package option or when the LaTeX `spacemono`
 package is not available, it will use Courier (or Nimbus Mono L) if the Main
@@ -73,15 +96,15 @@ compile them from the same LaTeX as canonical, a macro defines whether or not
 the document being compiled is canonical. When it is not canonical, the ISBN
 number is not added and only monochrome is used so that it is cheap to print.
 
-When the `canonical` option is passed to the `anymouse` package, the
-`canonicalversion` macro is set to `yes`. Otherwise it is defined as `no`.
+When the `canonical` option is passed to the `anymouse` package __and__ the
+`digsig.sty` package is available then the `canonicalversion` macro is set to
+`yes`. Otherwise it is defined as `no`.
 
 ### Options Summary
 
-When no options are selected, `anymouse.sty` defaults to using the so-called
-"Base35" fonts (URW clones unless you have the genuine Adobe versions *and*
-have set up LaTeX to use them) *unless* MathTime Pro 2 is not available, in
-which case it then uses the TeX Gyre fonts.
+When no options are selected, `anymouse.sty` defaults to using the updated TeX
+Gyre as the Main Document Fonts. These fonts are based on the "Base 35" fonts
+but are improved and updated.
 
 When no options are selected, `anymouse.sty` defaults to using the Space Mono
 font for monospace *unless* Space Mono is not available, in which case it will
@@ -90,25 +113,28 @@ use the monospace font either from the "Base35" fonts or the TeX Gyre fonts.
 When no options are selected, `anymouse.sty` will set the `\canonicalversion`
 macro to `no`.
 
-When the `texgyre` option is specified to `anymouse.sty` then the TeX Gyre fonts
-will be used as the main fonts regardless of whether or not MathTime Pro is
-available.
+When the `base35` option is specified to `anymouse.sty` __and__ MathTime Pro 2
+is available then the PostScript Level 2 "Base 35" fonts will be used as the
+Main Document Fonts.
 
 When the `courier` option is specified to `anymouse.sty` the monospace font from
 either the "Base35" collection or from the TeX Gyre fonts will be used
 regardless of whether or not Space Mono is available.
 
-When the `canonical` option is specified to `anymouse.sty` then the
-`\canonicalversion` macro is set to `yes`. Otherwise it is set to `no`.
+When the `canonical` option is specified to `anymouse.sty` __and__ the
+`digsig.sty` package is available then the `\canonicalversion` macro is set to
+`yes`. Otherwise it is set to `no`.
 
 
 Usage Example
 -------------
+This package should be loaded *after* the `documentclass` declaration in the
+preamble.
 
     \documentclass[twoside, letterpaper, fontsize=14pt]{scrartcl}
     \usepackage[T1]{fontenc}
     \usepackage[utf8]{inputenc}
-    \usepackage[texgyre,canonical]{anymouse}
+    \usepackage[base35,canonical]{anymouse}
     % rest of preamble
 
 
