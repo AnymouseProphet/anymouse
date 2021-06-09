@@ -135,8 +135,8 @@ default in current LaTeX authoring tools.
 
 I do not know how well the excellent MathTime Pro 2 fonts work in combination
 with the TeX Gyre fonts, but TeX Gyre developers have been busy developing their
-own math fonts that are getting to be quite good and certainly are sufficient
-for the vast majority of math needs.
+own maths fonts that are getting to be quite good and certainly are sufficient
+for the vast majority of maths needs.
 
 The MathTime Pro 2 fonts may work just fine with TeX Gyre, but if not, I suspect
 that PCTeX will adjust them so they do. In my basic testing, MathTime Pro 2
@@ -157,7 +157,7 @@ The TeX Gyre font mapping to "Base 35" fonts:
 It appears that at this time, the TeX Gyre collection does not have equivalents
 for Symbol or ITC Zapf Dingbats. Many of the Unicode codepoints covered by
 glyphs in those two fonts are however covered in the TeX Gyre fonts themselves
-(such as Greek) or in the TeX Gyre math fonts.
+(such as Greek) or in the TeX Gyre maths fonts.
 
 It is important to note that while very similar, TeX Gyre fonts are not metric
 compatible with the "Base 35" fonts. They are extensions and improvements upon
@@ -183,7 +183,7 @@ fatigue from computer screens is a contributing factor to epileptic seizures in
 the Anymouse Prophet and is a contributing factor to dyslexia for others.
 
 Unfortunately the Intel Clear Sans font that gives the Anymouse Prophet the
-*least* brain fatigue does not have accompanying math fonts and thus is not very
+*least* brain fatigue does not have accompanying maths fonts and thus is not
 suitable for documents that contain even a little maths. However even though TeX
 Gyre Termes is a serif font based heavily on Times, the reduced brain fatigue
 from reading the document when typeset with TeX Gyre Termes opposed to Times was
