@@ -43,9 +43,9 @@
 }{}
 
 % used within quote environment for historic documents
-\newcommand{\ampscriptfont}{\fontfamily{pzc}\selectfont\large}
+\newcommand{\ampscriptfont}{\fontfamily{qzc}\selectfont\large}
 % used within footnotes and LCCN
-\newcommand{\ampcondensedfont}{\fontfamily{phv}\fontseries{mc}\selectfont}
+\newcommand{\ampcondensedfont}{\fontfamily{qhv}\fontseries{mc}\selectfont}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the sans-serif and serif fonts %
@@ -53,12 +53,12 @@
 \ifthenelse{\equal{\ampfontcollection}{base35}}{
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\rmdefault}{ptm}
+\renewcommand{\ampscriptfont}{\fontfamily{pzc}\selectfont\large}
+\renewcommand{\ampcondensedfont}{\fontfamily{phv}\fontseries{mc}\selectfont}
 \usepackage[lite]{mtpro2}
 }{% else use the TeX Gyre fonts instead of Postscript Base35
 \usepackage{newtxtext}
 \usepackage{newtxmath}
-\renewcommand{\ampscriptfont}{\fontfamily{qzc}\selectfont\large}
-\renewcommand{\ampcondensedfont}{\fontfamily{qhv}\fontseries{mc}\selectfont}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % define the monospace font %
