@@ -3,8 +3,9 @@ Stuff About Fonts
 
 Back in the early days of PostScript, portable storage space was at a premium
 and network bandwidth was at a premium. Documents often specified what fonts
-they used but did not actually embed the font---the renderer had to have the
-right font available or the document could not properly render.
+they used but did not actually embed the fonts---the renderer had to have the
+right fonts in the right sizes and variants available or the document could not
+properly render.
 
 To address this, when Adobe first created the PostScript specification, they
 specified 13 base PostScript fonts:
@@ -59,7 +60,9 @@ fonts:
 A font expert can distinguish the URW "Base 35" glyphs from the genuine Adobe
 "Base 35" glyphs but the font metrics are identical allowing the URW fonts to
 be used when a PostScript (or PDF) document uses the Adobe Base 35 fonts but
-does not have them embedded.
+does not have them embedded. This allowed Free Software PostScript and PDF
+rendering engines---such as the [ghostscript](https://www.ghostscript.com/)
+PostScript interpreter commonly used on UNIX and GNU systems.
 
 The URW "Base 35" fonts saw the biggest distribution on UNIX and GNU systems
 (like the various BSD and Linux distributions) through the
@@ -74,8 +77,9 @@ If you have the genuine Adobe "Base 35" fonts you can configure LaTeX to use
 them instead of the URW variants. I bought my set I think in 2002 as part of a
 bundle Adobe was selling to typography students, but I do not believe Adobe
 continues to license them to the general public. They might, but I have not seen
-them offered in a long time, Type 1 PostScript fonts are on their way out as the
-OpenType font specification solves a lot of problems.
+them offered in a long time and it appears that Adobe is now trying to do away
+with Type 1 PostScript fonts as the OpenType font specification solves a lot of
+problems.
 
 PDF Fonts
 ---------
@@ -122,15 +126,15 @@ As LaTeX now embeds the "Base 35" (and all other) fonts by default anyway, this
 has freed up typography designers to extend the free URW "Base 35" fonts to
 add characters and even change the metrics to some degree.
 
-This has resulted in a new family of fonts called the "TeX Gyre" fonts that are
-very similar to the "Base 35" fonts but are not fully metric compatible.
+This has resulted in a new collection of fonts called the "TeX Gyre" fonts that
+are very similar to the "Base 35" fonts but are not fully metric compatible.
 
 It is my *suspicion* that the TeX Gyre fonts are the future of LaTeX and will
 replace the Computer Modern variants (like Latin Modern) that are often used by
 default in current LaTeX authoring tools.
 
 I do not know how well the excellent MathTime Pro 2 fonts work in combination
-with the TeX Gyre fonts, but TeX Gyre developers have been busy developing there
+with the TeX Gyre fonts, but TeX Gyre developers have been busy developing their
 own math fonts that are getting to be quite good and certainly are sufficient
 for the vast majority of math needs.
 
@@ -151,10 +155,53 @@ The TeX Gyre font mapping to "Base 35" fonts:
 * TeX Gyre Chancery *[ITC Chancery]*
 
 It appears that at this time, the TeX Gyre collection does not have equivalents
-for Symbol or ITC Zapf Dingbats. Many of the unicode codepoints covered by
+for Symbol or ITC Zapf Dingbats. Many of the Unicode codepoints covered by
 glyphs in those two fonts are however covered in the TeX Gyre fonts themselves
 (such as Greek) or in the TeX Gyre math fonts.
 
 It is important to note that while very similar, TeX Gyre fonts are not metric
 compatible with the "Base 35" fonts. They are extensions and improvements upon
 those fonts *without* the restraint of needing to keep metric compatibility.
+
+
+Anymouse Prophet Font Collection
+--------------------------------
+
+Until quite recently the Anymouse Prophet primarily used the "Base 35" fonts in
+combination with the MathTime Pro 2 fonts using the `pdflatex` LaTeX compiler.
+
+During the composition of the `SocialistHousing.pdf` document, the Anymouse
+Prophet needed to make sure the LaTeX source would compile using "vanilla"
+TeXLive without MathTime Pro 2. This led to the discovery that at least for
+rendering on screen, the tweaks made to the "Base 35" fonts in the creation of
+the TeX Gyre collection made the text less fatiguing to read---quite possibly
+due to improved hinting and other metric tweaks that take modern screen
+technology into account.
+
+This is why the decision was made to default to the TeX Gyre fonts. Brain
+fatigue from computer screens is a contributing factor to epileptic seizures in
+the Anymouse Prophet and is a contributing factor to dyslexia for others.
+
+Unfortunately the Intel Clear Sans font that gives the Anymouse Prophet the
+*least* brain fatigue does not have accompanying math fonts and thus is not very
+suitable for documents that contain even a little maths. However even though TeX
+Gyre Termes is a serif font based heavily on Times, the reduced brain fatigue
+from reading the document when typeset with TeX Gyre Termes opposed to Times was
+quite evident and is why the Anymouse Prophet chose to go with that font as the
+default.
+
+The Anymouse Prophet is one person and that makes the experience anecdotal. As
+such the Anymouse Prophet felt it necessary to make it easy for these documents
+to be compiled using the "Base 35" fonts (either genuine Adobe or URW clones) in
+place of the TeX Gyre collection.
+
+With respect to the monospace font, the Anymouse Prophet has never been a fan of
+Adobe Courier or clones of it. Space Mono was chosen because it is a relatively
+attractive monospace font with a dotted zero and a liberal license, and it is
+available in both normal and bold weights with both upright and italicized
+variants.
+
+At this point in time, Space Mono is not distributed as either as part of
+TeXLive or as part of CTAN so the Anymouse Prophet does ensure that documents
+built using the `anymouse.sty` style file can still compile using either Courier
+from the "Base 35" collection or using the TeX Gyre Cursor clone of Courier.
