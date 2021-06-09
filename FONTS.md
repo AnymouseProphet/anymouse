@@ -205,3 +205,4 @@ At this point in time, Space Mono is not distributed as either as part of
 TeXLive or as part of CTAN so the Anymouse Prophet does ensure that documents
 built using the `anymouse.sty` style file can still compile using either Courier
 from the "Base 35" collection or using the TeX Gyre Cursor clone of Courier.
+Some people like Courier. Some people juggle geese.
