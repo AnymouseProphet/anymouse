@@ -153,8 +153,8 @@ useful for telling the LaTeX compiler whether or not it should use colored
 links, include the ISBN barcode, or include the cryptography signature form.
 
 Note that `anymouse.sty` already loads the [soul](https://www.ctan.org/pkg/soul)
-package and then when `\canonicalversion` is `yes` then the `\hl{}` command from
-that package is redefined to the `\ul{}` command also from that package.
+package but when `\canonicalversion` is `no` then the `\hl{}` command from that
+package is redefined to the `\ul{}` command also from that package.
 
 ### Chancery Script Font
 
@@ -237,9 +237,9 @@ it takes two arguments: The hyperlink, and the text.
 
 ### Roman Numerals
 
-The `amprom{}` macro command turns an Arabic number into a Roman Numeral. It
-takes a single argument. I sometimes mess up when making Roman Numerals
-manually.
+The `amprom{}` macro command turns a Hindu-Arabic numberal into a Roman Numeral.
+It takes a single argument. I sometimes mess up when making Roman Numerals
+manually so this macro helps me get it right.
 
 #### Example Usage
 
