@@ -19,3 +19,7 @@ patch applied.
 I would leave the `texmf-dist` version alone and put the patched version in your
 `[TEXMF-LOCAL]` tree. Check the version every now and then in case an update is
 released and you need to update your patched version as well.
+
+Please note the `ean13isbn.sty` file is only needed if you have paid for an
+ISBN number for your fork of an Anymouse Prophet document and you wish to make
+your own canonical version of your fork. I suspect most people will not.
