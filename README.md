@@ -269,3 +269,9 @@ For consistency across documents I like to use the
 unit that is not already defined by that package, I will define it at the end
 of the `anymouse.sty` file so that usage remains consistent.
 
+
+Coronavirus Lineages
+--------------------
+
+For consistency across documents several commands for specifying coronavirus
+lineages have been defined.
