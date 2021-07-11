@@ -1,0 +1,51 @@
+\documentclass[letterpaper, fontsize=14pt]{scrartcl}
+\usepackage[T3,T1]{fontenc}
+
+%
+% Change q to p to test the Adobe/URW++ Base35 fonts
+%
+\renewcommand{\sfdefault}{qhv}
+\renewcommand{\rmdefault}{qtm}
+\renewcommand{\ttdefault}{qcr}
+
+%
+% Uncomment to test newtxttext which will
+% override the defaults set above
+%
+%\usepackage{newtxtext}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[noenc]{tipa}
+
+\begin{document}
+
+Regular:
+\textipa{/oU"mEg@/}
+
+Italicized:
+\textipa{\slshape /oU"mEg@/}
+\textipa{\textsl{/oU"mEg@/}}
+\textsl{\textipa{/oU"mEg@/}}
+
+Bold:
+\textipa{\bfseries /oU"mEg@/}
+\textipa{\textbf{/oU"mEg@/}}
+\textbf{\textipa{/oU"mEg@/}}
+
+Sans Serif:
+\textipa{\sffamily /oU"mEg@/}
+\textipa{\textsf{/oU"mEg@/}}
+\textsf{\textipa{/oU"mEg@/}}
+
+Sans Serif Bold:
+\textipa{\sffamily\bfseries /oU"mEg@/}
+\textipa{\textsf{\textbf{/oU"mEg@/}}}
+\textsf{\textbf{\textipa{/oU"mEg@/}}}
+
+Monospace:
+\textipa{\ttfamily /oU"mEg@/}
+\textipa{\texttt{/oU"mEg@/}}
+\texttt{\textipa{/oU"mEg@/}}
+
+\end{document}
