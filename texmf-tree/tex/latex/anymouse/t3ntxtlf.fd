@@ -1,6 +1,6 @@
-% t3qtm.fd
+% t3ntxtlf.fd
 %
-% Modified by Anymouse Prophet 2021 to use qtm instead of ptm
+% Modified by Anymouse Prophet 2021 to use ntxtlf instead of ptm
 %  no other changes
 %
 % Copyright 2002 FUKUI Rei
@@ -15,27 +15,27 @@
 %
 % This program consists of all files listed in Manifest.txt.
 %
-\ProvidesFile{t3qtm.fd}[2021/07/10 TIPA font definitions]
-\DeclareFontFamily{T3}{qtm}{}
-\DeclareFontShape{T3}{qtm}{m}{n}{%
+\ProvidesFile{t3ntxtlf.fd}[2021/07/10 TIPA font definitions]
+\DeclareFontFamily{T3}{ntxtlf}{}
+\DeclareFontShape{T3}{ntxtlf}{m}{n}{%
   <-> xipa10
 }{}
-\DeclareFontShape{T3}{qtm}{bx}{n}{%
+\DeclareFontShape{T3}{ntxtlf}{bx}{n}{%
   <-> xipab10
 }{}
-\DeclareFontShape{T3}{qtm}{b}{n}{%
+\DeclareFontShape{T3}{ntxtlf}{b}{n}{%
   <-> xipab10
 }{}
-\DeclareFontShape{T3}{qtm}{m}{sl}{%
+\DeclareFontShape{T3}{ntxtlf}{m}{sl}{%
   <-> xipasl10
 }{}
-\DeclareFontShape{T3}{qtm}{b}{sl}{%
+\DeclareFontShape{T3}{ntxtlf}{b}{sl}{%
   <-> xipabs10
 }{}
-\DeclareFontShape{T3}{qtm}{bx}{sl}{%
+\DeclareFontShape{T3}{ntxtlf}{bx}{sl}{%
   <-> xipabs10
 }{}
-\DeclareFontShape{T3}{qtm}{m}{it}{%
-  <-> sub * qtm/m/sl
+\DeclareFontShape{T3}{ntxtlf}{m}{it}{%
+  <-> sub * ntxtlf/m/sl
 }{}
 \endinput
