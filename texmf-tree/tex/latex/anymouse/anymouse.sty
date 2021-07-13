@@ -1,6 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{anymouse}%
-[2021/05/28 v.0.1 loads fonts and custom macros for Anymouse Prophet publications]%
+\def\fileversion{0.2}
+\def\filedate{2021/07/13}
+\ProvidesPackage{anymouse}[\filedate\space v\fileversion]
+
+\message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Anymouse Prophet publications (anymouseprophet)}
+
 \RequirePackage{ifthen}
 \RequirePackage{siunitx}
 \RequirePackage{letltxmacro}
@@ -10,36 +14,78 @@
 \newcommand{\ampfontcollection}{texgyre}
 \newcommand{\ampmonofont}{spacemono}
 \newcommand{\canonicalversion}{no}
-\DeclareOption{base35}{\renewcommand{\ampfontcollection}{base35}}
+\newcommand{\mathfonts}{no}
+\newcommand{\replacefonts}{no}
+\newcommand{\tipafonts}{no}
+\newcommand{\lgrgreek}{no}
+\newcommand{\clearsans}{no}
+\DeclareOption{pdf14}{\renewcommand{\ampfontcollection}{pdf14}}
+\DeclareOption{base35}{\renewcommand{\ampfontcollection}{pdf14}}% compatibility
 \DeclareOption{texgyre}{\renewcommand{\ampfontcollection}{texgyre}}% currently default
 \DeclareOption{courier}{\renewcommand{\ampmonofont}{courier}}
 \DeclareOption{cursor}{\renewcommand{\ampmonofont}{courier}}% cursor is currently alias for courier
 \DeclareOption{spacemono}{\renewcommand{\ampmonofont}{spacemono}}% currently default
+\DeclareOption{math}{\renewcommand{\mathfonts}{yes}}
 \DeclareOption{canonical}{\renewcommand{\canonicalversion}{yes}}
+\DeclareOption{tipa}{
+  \renewcommand{\tipafonts}{yes}
+  \renewcommand{\replacefonts}{yes}
+}
+\DeclareOption{lgr}{
+  \renewcommand{\lgrgreek}{txr}
+  \renewcommand{\replacefonts}{yes}
+}
+\DeclareOption{txr}{
+  \renewcommand{\lgrgreek}{txr}
+  \renewcommand{\replacefonts}{yes}
+}
+\DeclareOption{porson}{
+  \renewcommand{\lgrgreek}{porson}
+  \renewcommand{\replacefonts}{yes}
+}
+\DeclareOption{udidot}{
+  \renewcommand{\lgrgreek}{udidot}
+  \renewcommand{\replacefonts}{yes}
+}
+\DeclareOption{epigrafica}{
+  \renewcommand{\lgrgreek}{epigrafica}
+  \renewcommand{\replacefonts}{yes}
+}
+\DeclareOption{artemisia}{
+  \renewcommand{\lgrgreek}{artemisia}
+  \renewcommand{\replacefonts}{yes}
+}
+\DeclareOption{dyslexia}{\renewcommand{\clearsans}{yes}}
 \DeclareOption*{\PackageWarning{anymouse}{Unknown ‘\CurrentOption’}}
 \ProcessOptions\relax
 %
-\ifthenelse{\equal{\ampfontcollection}{base35}}{
-\IfFileExists{mtpro2.sty}{}{% else
-\PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
-\renewcommand{\ampfontcollection}{texgyre}
-}
+\ifthenelse{\equal{\ampfontcollection}{pdf14}}{
+  \ifthenelse{\equal{\mathfonts}{yes}}{
+    \IfFileExists{mtpro2.sty}{
+      \renewcommand{\ampmonofont}{courier}
+    }{% else
+      \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
+      \renewcommand{\ampfontcollection}{texgyre}
+    }
+  }{
+   \renewcommand{\ampmonofont}{courier}
+  }
 }{}
 %
 \ifthenelse{\equal{\ampmonofont}{spacemono}}{
-\IfFileExists{spacemono.sty}{}{% else
-\PackageWarning{anymouse}{Space Mono not available, substituting \ampfontcollection{} monospace font}
-\renewcommand{\ampmonofont}{courier}
-}
+  \IfFileExists{spacemono.sty}{}{% else
+    \PackageWarning{anymouse}{Space Mono not available, substituting \ampfontcollection{} monospace font}
+    \renewcommand{\ampmonofont}{courier}
+  }
 }{}
 %
 \ifthenelse{\equal{\canonicalversion}{yes}}{
-\IfFileExists{digsig.sty}{
-\RequirePackage{ean13isbn}
-}{%else turn canonical off
-\PackageWarning{anymouse}{digsig.sty not available, turning canonical off}
-\renewcommand{\canonicalversion}{no}
-}
+  \IfFileExists{digsig.sty}{
+    \RequirePackage{ean13isbn}
+  }{%else turn canonical off
+    \PackageWarning{anymouse}{digsig.sty not available, turning canonical off}
+    \renewcommand{\canonicalversion}{no}
+  }
 }{}
 
 % used within quote environment for historic documents
@@ -47,72 +93,104 @@
 % used within footnotes and LCCN
 \newcommand{\ampcondensedfont}{\fontfamily{qhv}\fontseries{mc}\selectfont}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The amssymb package has to be loaded before TeX Gyre %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\mathfonts}{yes}}{
+  \RequirePackage{amssymb}
+  \RequirePackage{bm}
+}{}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the sans-serif and serif fonts %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\ampfontcollection}{base35}}{
-\renewcommand{\sfdefault}{phv}
-\renewcommand{\rmdefault}{ptm}
-\renewcommand{\ampscriptfont}{\fontfamily{pzc}\selectfont\large}
-\renewcommand{\ampcondensedfont}{\fontfamily{phv}\fontseries{mc}\selectfont}
-\usepackage[lite]{mtpro2}
-}{% else use the TeX Gyre fonts instead of Postscript Base35
-\usepackage{newtxtext}
-\usepackage{newtxmath}
+\ifthenelse{\equal{\ampfontcollection}{pdf14}}{
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\rmdefault}{ptm}
+  \ifthenelse{\equal{\mathfonts}{yes}}{
+    \RequirePackage{amsmath}
+    \RequirePackage[lite]{mtpro2}
+    %fix bug in mtpro2 -- see https://tex.stackexchange.com/questions/87419/conflict-between-mathtime-pro-2-refcheck-and-braces-in-text-mode
+    \DeclareRobustCommand\{{\ifmmode\lbrace\else\textbraceleft\fi}
+    \DeclareRobustCommand\}{\ifmmode\rbrace\else\textbraceright\fi}
+  }{}
+}{% else use the TeX Gyre fonts instead of PDF14
+  \RequirePackage{newtxtext}
+  \ifthenelse{\equal{\mathfonts}{yes}}{
+    \RequirePackage{newtxmath}
+  }{}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % define the monospace font %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\ampmonofont}{spacemono}}{
-\usepackage{spacemono}
+  \RequirePackage{spacemono}
 }{% else
-\ifthenelse{\equal{\ampfontcollection}{base35}}{% use Courier or (Nimbus Mono L equivalent)
-\renewcommand{\ttdefault}{pcr}
-}{% else TeX Gyre-Cursor
-\renewcommand{\ttdefault}{qcr}
-}
+  \ifthenelse{\equal{\ampfontcollection}{pdf14}}{% use Courier or (Nimbus Mono L equivalent)
+    \renewcommand{\ttdefault}{pcr}
+  }{% else TeX Gyre-Cursor
+    \renewcommand{\ttdefault}{qcr}
+  }
 }
 % for reducing the monospace font size
 \LetLtxMacro\oldttfamily\ttfamily
 \DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
 \def\ttsize{\small}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Clear Sans as body font %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\clearsans}{yes}}{
+  \RequirePackage[sfdefault]{ClearSans}
+}{}
+
+% Do we need font encoding substitutes?
+\ifthenelse{\equal{\replacefonts}{yes}}{
+  % either greek or ipa or both
+  \ifthenelse{\equal{\tipafonts}{yes}}{
+    \ifthenelse{\equal{\lgrgreek}{no}}{% ipa only
+      \RequirePackage[T3,T1]{fontenc}
+    }{% greek and ipa
+      \RequirePackage[T3,LGR,T1]{fontenc}
+    }
+  }{%else greek only
+    \RequirePackage[LGR,T1]{fontenc}
+  }
+  \RequirePackage{substitutefont}
+}{
+% likely not needed but make sure it's most recently loaded
+\RequirePackage[T1]{fontenc}
+}
+
+%%%%%%%%%%%%%%%%%%%%
+% the tipa package %
+%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\tipafonts}{yes}}{
+  \RequirePackage[noenc]{tipa}
+  \ifthenelse{\equal{\ampfontcollection}{pdf14}}{}{% only needed if not using pdf14
+    \substitutefont{T3}{\rmdefault}{ptm}
+    \substitutefont{T3}{\sfdefault}{phv}
+  }
+  \ifthenelse{\equal{\ampmonofont}{spacemono}}{}{% only needed if not using spacemono
+    \substitutefont{T3}{\ttdefault}{cmtt}
+  }
+}{}
+
+%%%%%%%%%%%%%%%%%%%%%
+% LGR Greek support %
+%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\lgrgreek}{no}}{}{% only do this if not no
+  \substitutefont{LGR}{\rmdefault}{\lgrgreek}
+  \substitutefont{LGR}{\sfdefault}{\lgrgreek}
+  \newcommand{\textgreek}[1]{\begingroup\fontencoding{LGR}\selectfont#1\endgroup}
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % define type of highlight %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\canonicalversion}{yes}}{}{
-\renewcommand*{\hl}{\ul}
+\ifthenelse{\equal{\canonicalversion}{yes}}{}{%else
+  \renewcommand*{\hl}{\ul}
 }
 
-%misc macros
-% bib in footnotes
-% #1 - Title
-% #2 - Author
-% #3 - Page or Pages
-% #4 - publication year
-% #5 - publisher
-% #6 - ISBN
-\newcommand{\footbib}[6]{%
-\footnote{\ampcondensedfont{\textit{#1} by #2; \textbf{#3}; (#4) #5. ISBN #6.}}%
-}% end new command
-% url in footnote
-\newcommand\footurl[1]{\footnote{\texttt{\footnotesize \href{#1}{#1}}}}
-% url in footnote with reference
-\newcommand\footlabelurl[2]{\footnote{\label{#1}\texttt{\footnotesize \href{#2}{#2}}}}
-% non-naked hyperlinks
-\newcommand{\amphref}[2]{\href{#1}{#2}\footurl{#1}}
-% convert to roman numerals
-\makeatletter
-\newcommand*{\amprom}[1]{\expandafter\@slowromancap\romannumeral #1@}
-\makeatother
-% for US money
-\newcommand{\usmoney}[1]{\$\num[group-separator={,}]{#1}}
-% units
-\DeclareSIUnit{\hour}{hr}
-\DeclareSIUnit{\year}{yr}
-
-% for coronavirus lineages
-\newcommand{\sars}[1][]{\ifx&#1&SARS-CoV\else SARS-CoV-#1\fi}
-\newcommand{\mers}[1][]{\ifx&#1&MERS-CoV\else MERS-CoV-#1\fi}
-\newcommand{\hcov}[1][]{\ifx&#1&HCoV\else HCoV-#1\fi}
-\newcommand{\ccov}[1][]{\ifx&#1&CCoV\else CCoV-#1\fi}
+\RequirePackage{ampmisc}
+\endinput

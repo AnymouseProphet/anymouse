@@ -1,0 +1,41 @@
+\NeedsTeXFormat{LaTeX2e}
+\def\fileversion{0.2}
+\def\filedate{2021/07/13}
+\ProvidesPackage{ampmisc}[\filedate\space v\fileversion]
+
+\message{`ampmisc' v\fileversion, \filedate\space Loads custom macros for Anymouse Prophet publications (anymouseprophet)}
+
+%misc macros
+% bib in footnotes
+% #1 - Title
+% #2 - Author
+% #3 - Page or Pages
+% #4 - publication year
+% #5 - publisher
+% #6 - ISBN
+\newcommand{\footbib}[6]{%
+\footnote{\ampcondensedfont{\textit{#1} by #2; \textbf{#3}; (#4) #5. ISBN #6.}}%
+}% end new command
+% url in footnote
+\newcommand\footurl[1]{\footnote{\texttt{\footnotesize \href{#1}{#1}}}}
+% url in footnote with reference
+\newcommand\footlabelurl[2]{\footnote{\label{#1}\texttt{\footnotesize \href{#2}{#2}}}}
+% non-naked hyperlinks
+\newcommand{\amphref}[2]{\href{#1}{#2}\footurl{#1}}
+% convert to roman numerals
+\makeatletter
+\newcommand*{\amprom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+% for US money
+\newcommand{\usmoney}[1]{\$\num[group-separator={,}]{#1}}
+% units
+\DeclareSIUnit{\hour}{hr}
+\DeclareSIUnit{\year}{yr}
+
+% for coronavirus lineages
+\newcommand{\sars}[1][]{\ifx&#1&SARS-CoV\else SARS-CoV-#1\fi}
+\newcommand{\mers}[1][]{\ifx&#1&MERS-CoV\else MERS-CoV-#1\fi}
+\newcommand{\hcov}[1][]{\ifx&#1&HCoV\else HCoV-#1\fi}
+\newcommand{\ccov}[1][]{\ifx&#1&CCoV\else CCoV-#1\fi}
+\endinput
+
