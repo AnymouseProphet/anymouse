@@ -11,22 +11,36 @@
 \RequirePackage[table,usenames,dvipsnames]{xcolor}
 \RequirePackage{soul}
 % default options
-\newcommand{\ampfontcollection}{texgyre}
+\newcommand{\ampedition}{canonical}
+\newcommand{\ampcolor}{yes}
 \newcommand{\ampmonofont}{spacemono}
-\newcommand{\canonicalversion}{no}
 \newcommand{\mathfonts}{no}
 \newcommand{\replacefonts}{no}
 \newcommand{\tipafonts}{no}
 \newcommand{\lgrgreek}{no}
-\newcommand{\clearsans}{no}
-\DeclareOption{pdf14}{\renewcommand{\ampfontcollection}{pdf14}}
-\DeclareOption{base35}{\renewcommand{\ampfontcollection}{pdf14}}% compatibility
-\DeclareOption{texgyre}{\renewcommand{\ampfontcollection}{texgyre}}% currently default
+%
+%
+\DeclareOption{canonical}{
+  \renewcommand{\ampedition}{canonical}
+}
+\DeclareOption{printhouse}{
+  \renewcommand{\ampedition}{printhouse}
+}
+\DeclareOption{reduced}{
+  \renewcommand{\ampedition}{reduced}
+}
+\DeclareOption{grayscale}{
+  \renewcommand{\ampedition}{grayscale}
+  \renewcommand{\ampcolor}{no}
+}
+\DeclareOption{dyslexia}{
+  \renewcommand{\ampedition}{dyslexia}
+  \renewcommand{\ampcolor}{no}
+}
+%
 \DeclareOption{courier}{\renewcommand{\ampmonofont}{courier}}
-\DeclareOption{cursor}{\renewcommand{\ampmonofont}{courier}}% cursor is currently alias for courier
 \DeclareOption{spacemono}{\renewcommand{\ampmonofont}{spacemono}}% currently default
 \DeclareOption{math}{\renewcommand{\mathfonts}{yes}}
-\DeclareOption{canonical}{\renewcommand{\canonicalversion}{yes}}
 \DeclareOption{tipa}{
   \renewcommand{\tipafonts}{yes}
   \renewcommand{\replacefonts}{yes}
@@ -55,36 +69,33 @@
   \renewcommand{\lgrgreek}{artemisia}
   \renewcommand{\replacefonts}{yes}
 }
-\DeclareOption{dyslexia}{\renewcommand{\clearsans}{yes}}
 \DeclareOption*{\PackageWarning{anymouse}{Unknown ‘\CurrentOption’}}
 \ProcessOptions\relax
 %
-\ifthenelse{\equal{\ampfontcollection}{pdf14}}{
-  \ifthenelse{\equal{\mathfonts}{yes}}{
-    \IfFileExists{mtpro2.sty}{
-      \renewcommand{\ampmonofont}{courier}
-    }{% else
-      \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
-      \renewcommand{\ampfontcollection}{texgyre}
-    }
-  }{
-   \renewcommand{\ampmonofont}{courier}
+%
+%% printhouse edition gets ISBN on back cover, not typeset here by LaTeX
+\ifthenelse{\equal{\ampedition}{printhouse}}{}{%else
+  \ifthenelse{\equal{\ampedition}{reduced}}{
+    \RequirePackage{ean13isbn}
+  }{% use TeXGyre condensed in T1 encoding
+    \RequirePackage{ampean13isbn}
   }
+}
+%
+\ifthenelse{\equal{\ampedition}{reduced}}{
+  \renewcommand{\ampmonofont}{courier}
+  \ifthenelse{\equal{\mathfonts}{yes}}{
+    \IfFileExists{mtpro2.sty}{}{% else
+      \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
+      \renewcommand{\ampedition}{notreduced}
+    }
+  }{}
 }{}
 %
 \ifthenelse{\equal{\ampmonofont}{spacemono}}{
   \IfFileExists{spacemono.sty}{}{% else
-    \PackageWarning{anymouse}{Space Mono not available, substituting \ampfontcollection{} monospace font}
+    \PackageWarning{anymouse}{Space Mono not available, using Courier for typewriter font}
     \renewcommand{\ampmonofont}{courier}
-  }
-}{}
-%
-\ifthenelse{\equal{\canonicalversion}{yes}}{
-  \IfFileExists{digsig.sty}{
-    \RequirePackage{ean13isbn}
-  }{%else turn canonical off
-    \PackageWarning{anymouse}{digsig.sty not available, turning canonical off}
-    \renewcommand{\canonicalversion}{no}
   }
 }{}
 
@@ -104,7 +115,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the sans-serif and serif fonts %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\ampfontcollection}{pdf14}}{
+\ifthenelse{\equal{\ampedition}{reduced}}{
   \renewcommand{\sfdefault}{phv}
   \renewcommand{\rmdefault}{ptm}
   \ifthenelse{\equal{\mathfonts}{yes}}{
@@ -126,7 +137,7 @@
 \ifthenelse{\equal{\ampmonofont}{spacemono}}{
   \RequirePackage{spacemono}
 }{% else
-  \ifthenelse{\equal{\ampfontcollection}{pdf14}}{% use Courier or (Nimbus Mono L equivalent)
+  \ifthenelse{\equal{\ampedition}{reduced}}{% use Courier or (Nimbus Mono L equivalent)
     \renewcommand{\ttdefault}{pcr}
   }{% else TeX Gyre-Cursor
     \renewcommand{\ttdefault}{qcr}
@@ -140,7 +151,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Clear Sans as body font %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\clearsans}{yes}}{
+\ifthenelse{\equal{\ampedition}{dyslexia}}{
   \RequirePackage[sfdefault]{ClearSans}
 }{}
 
@@ -167,7 +178,7 @@
 %%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\tipafonts}{yes}}{
   \RequirePackage[noenc]{tipa}
-  \ifthenelse{\equal{\ampfontcollection}{pdf14}}{}{% only needed if not using pdf14
+  \ifthenelse{\equal{\ampedition}{reduced}}{}{% only needed if not using pdf14
     \substitutefont{T3}{\rmdefault}{ptm}
     \substitutefont{T3}{\sfdefault}{phv}
   }
@@ -188,9 +199,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % define type of highlight %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\canonicalversion}{yes}}{}{%else
+\ifthenelse{\equal{\ampcolor}{yes}}{}{%else
   \renewcommand*{\hl}{\ul}
 }
 
+% reset to reduced
+\ifthenelse{\equal{\ampedition}{notreduced}}{
+  \renewcommand{\ampedition}{reduced}
+}
+%load misc macros
 \RequirePackage{ampmisc}
 \endinput

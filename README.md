@@ -1,6 +1,17 @@
 anymouse LaTeX 
 ==============
 
+
+THIS README IS OUT OF DATE
+
+    THIS README IS OUT OF DATE
+
+THIS README IS OUT OF DATE
+
+    THIS README IS OUR OF DATE
+
+
+
 This is a LaTeX package that sets the fonts and some other macros used by the
 Anymouse Prophet in his political ramblings.
 
@@ -46,7 +57,7 @@ where `whatever.map` is the map file for the new font package.
 Package Options
 ---------------
 
-The package currently has three options.
+The package has several options.
 
 ### Main Document Fonts
 
@@ -99,6 +110,30 @@ number is not added and only monochrome is used so that it is cheap to print.
 When the `canonical` option is passed to the `anymouse` package __and__ the
 `digsig.sty` package is available then the `canonicalversion` macro is set to
 `yes`. Otherwise it is defined as `no`.
+
+### TIPA
+
+This is for typesetting the International Phonetic Alphabet (IPA).
+
+Defaults to no.
+
+When the `tipa` option is passed to the `anymouse` package, the tipa package is
+automatically loaded and appropriate font substitutions are set up so that when
+the LaTeX compiler encounters strings specified as wanting a `T3` encoding, the
+appropriate font from the `tipa` package is used (depending upon serif,
+sans-serif, or monospace) to typeset the output.
+
+You can then use the `\textipa{}' command to typeset IPA characters. For
+example:
+
+    \textipa{/"2ps\;Il6n/}
+
+will typeset the following IPA:
+
+    /ˈʌpsɪlɒn/
+
+A full listing of how to type IPA characters within the `\textipa{}` command can
+be found in the package manual at (https://ctan.org/pkg/tipa).
 
 ### Options Summary
 
