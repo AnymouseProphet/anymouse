@@ -1,10 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}
-\def\fileversion{0.2}
-\def\filedate{2021/07/13}
+\def\fileversion{0.3}
+\def\filedate{2021/07/14}
 \ProvidesPackage{anymouse}[\filedate\space v\fileversion]
 
-\message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Anymouse Prophet publications (anymouseprophet)}
+\message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Pipfrosch Press publications (anymouseprophet)}
 
+\RequirePackage{kvoptions}
+\RequirePackage{ampean13isbn}
 \RequirePackage{ifthen}
 \RequirePackage{siunitx}
 \RequirePackage{letltxmacro}
@@ -13,91 +15,116 @@
 % default options
 \newcommand{\ampedition}{canonical}
 \newcommand{\ampcolor}{yes}
-\newcommand{\ampmonofont}{spacemono}
 \newcommand{\mathfonts}{no}
 \newcommand{\replacefonts}{no}
 \newcommand{\tipafonts}{no}
 \newcommand{\lgrgreek}{no}
 %
 %
+%
+%\define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
+%\define@key{amp}{math}[yes]{\renewcommand{\mathfonts}{#1}}
+%\define@key{amp}{greek}[txr]{\renewcommand{\lgrgreek}{#1}}
+%\define@key{amp}{tipa}[yes]{\renewcommand{\tipafonts}{#1}}
+%\SetupKeyvalOptions
+%
+%
+%
 \DeclareOption{canonical}{
   \renewcommand{\ampedition}{canonical}
 }
-\DeclareOption{printhouse}{
-  \renewcommand{\ampedition}{printhouse}
+\DeclareOption{printshop}{
+  \renewcommand{\ampedition}{printshop}
 }
 \DeclareOption{reduced}{
   \renewcommand{\ampedition}{reduced}
 }
 \DeclareOption{grayscale}{
   \renewcommand{\ampedition}{grayscale}
-  \renewcommand{\ampcolor}{no}
+%  \renewcommand{\ampcolor}{no}
 }
-\DeclareOption{dyslexia}{
-  \renewcommand{\ampedition}{dyslexia}
-  \renewcommand{\ampcolor}{no}
+\DeclareOption{sans}{
+  \renewcommand{\ampedition}{sans}
+%  \renewcommand{\ampcolor}{no}
 }
 %
-\DeclareOption{courier}{\renewcommand{\ampmonofont}{courier}}
-\DeclareOption{spacemono}{\renewcommand{\ampmonofont}{spacemono}}% currently default
 \DeclareOption{math}{\renewcommand{\mathfonts}{yes}}
 \DeclareOption{tipa}{
   \renewcommand{\tipafonts}{yes}
-  \renewcommand{\replacefonts}{yes}
+%  \renewcommand{\replacefonts}{yes}
 }
 \DeclareOption{lgr}{
   \renewcommand{\lgrgreek}{txr}
-  \renewcommand{\replacefonts}{yes}
+%  \renewcommand{\replacefonts}{yes}
 }
 \DeclareOption{txr}{
   \renewcommand{\lgrgreek}{txr}
-  \renewcommand{\replacefonts}{yes}
+%  \renewcommand{\replacefonts}{yes}
 }
 \DeclareOption{porson}{
   \renewcommand{\lgrgreek}{porson}
-  \renewcommand{\replacefonts}{yes}
+%  \renewcommand{\replacefonts}{yes}
 }
 \DeclareOption{udidot}{
   \renewcommand{\lgrgreek}{udidot}
-  \renewcommand{\replacefonts}{yes}
+%  \renewcommand{\replacefonts}{yes}
 }
 \DeclareOption{epigrafica}{
   \renewcommand{\lgrgreek}{epigrafica}
-  \renewcommand{\replacefonts}{yes}
+%  \renewcommand{\replacefonts}{yes}
 }
 \DeclareOption{artemisia}{
   \renewcommand{\lgrgreek}{artemisia}
-  \renewcommand{\replacefonts}{yes}
+%  \renewcommand{\replacefonts}{yes}
 }
 \DeclareOption*{\PackageWarning{anymouse}{Unknown ‘\CurrentOption’}}
 \ProcessOptions\relax
 %
-%
-%% printhouse edition gets ISBN on back cover, not typeset here by LaTeX
-\ifthenelse{\equal{\ampedition}{printhouse}}{}{%else
+% post process
+\ifthenelse{\equal{\tipafonts}{no}}{}{%
+  \renewcommand{\tipafonts}{yes}
+  \renewcommand{\replacefonts}{yes}
+}
+\ifthenelse{\equal{\mathfonts}{no}}{}{%
+  \renewcommand{\mathfonts}{yes}
+}
+\ifthenelse{\equal{\ampedition}{canonical}}{}{%
   \ifthenelse{\equal{\ampedition}{reduced}}{
-    \RequirePackage{ean13isbn}
-  }{% use TeXGyre condensed in T1 encoding
-    \RequirePackage{ampean13isbn}
+    \ifthenelse{\equal{\mathfonts}{yes}}{
+      \IfFileExists{mtpro2.sty}{}{% else
+        \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
+        \renewcommand{\ampedition}{notreduced}
+      }
+    }{}
+  }{}
+  \ifthenelse{\equal{\ampedition}{grayscale}}{
+    \renewcommand{\ampcolor}{no}
+  }{}
+  \ifthenelse{\equal{\ampedition}{greyscale}}{
+    \renewcommand{\ampcolor}{no}
+  }{}
+  \ifthenelse{\equal{\ampedition}{sans}}{
+    \renewcommand{\ampcolor}{no}
+  }{}
+}
+\ifthenelse{\equal{\lgrgreek}{no}}{}{%
+  \IfFileExists{lgr\lgrgreek{}.fd}{}{% else
+    \PackageWarning{anymouse}{LGR encoding font definitions for \lgrgreek not found, using txr instead}
+    \renewcommand{\lgrgreek}{txr}
   }
+  \renewcommand{\replacefonts}{yes}
 }
 %
-\ifthenelse{\equal{\ampedition}{reduced}}{
-  \renewcommand{\ampmonofont}{courier}
-  \ifthenelse{\equal{\mathfonts}{yes}}{
-    \IfFileExists{mtpro2.sty}{}{% else
-      \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
-      \renewcommand{\ampedition}{notreduced}
-    }
-  }{}
-}{}
 %
-\ifthenelse{\equal{\ampmonofont}{spacemono}}{
-  \IfFileExists{spacemono.sty}{}{% else
-    \PackageWarning{anymouse}{Space Mono not available, using Courier for typewriter font}
-    \renewcommand{\ampmonofont}{courier}
-  }
-}{}
+%
+%%%\ifthenelse{\equal{\ampedition}{reduced}}{
+%%%    \ifthenelse{\equal{\mathfonts}{yes}}{
+%%%      \IfFileExists{mtpro2.sty}{}{% else
+%%%        \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
+%%%        \renewcommand{\ampedition}{notreduced}
+%%%      }
+%%%    }{}
+%%%}{}
 
 % used within quote environment for historic documents
 \newcommand{\ampscriptfont}{\fontfamily{qzc}\selectfont\large}
@@ -112,12 +139,13 @@
   \RequirePackage{bm}
 }{}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Define the sans-serif and serif fonts %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the sans-serif, serif fonts, monospace fonts %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\ampedition}{reduced}}{
   \renewcommand{\sfdefault}{phv}
   \renewcommand{\rmdefault}{ptm}
+  \renewcommand{\ttdefault}{pcr}
   \ifthenelse{\equal{\mathfonts}{yes}}{
     \RequirePackage{amsmath}
     \RequirePackage[lite]{mtpro2}
@@ -130,28 +158,17 @@
   \ifthenelse{\equal{\mathfonts}{yes}}{
     \RequirePackage{newtxmath}
   }{}
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% define the monospace font %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\ampmonofont}{spacemono}}{
   \RequirePackage{spacemono}
-}{% else
-  \ifthenelse{\equal{\ampedition}{reduced}}{% use Courier or (Nimbus Mono L equivalent)
-    \renewcommand{\ttdefault}{pcr}
-  }{% else TeX Gyre-Cursor
-    \renewcommand{\ttdefault}{qcr}
-  }
 }
 % for reducing the monospace font size
 \LetLtxMacro\oldttfamily\ttfamily
 \DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
 \def\ttsize{\small}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Clear Sans as body font %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\ampedition}{dyslexia}}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Special Case Clear Sans as body font %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\ampedition}{sans}}{
   \RequirePackage[sfdefault]{ClearSans}
 }{}
 
@@ -169,8 +186,8 @@
   }
   \RequirePackage{substitutefont}
 }{
-% likely not needed but make sure it's most recently loaded
-\RequirePackage[T1]{fontenc}
+  % likely not needed but make sure it's most recently loaded
+  \RequirePackage[T1]{fontenc}
 }
 
 %%%%%%%%%%%%%%%%%%%%
@@ -178,12 +195,11 @@
 %%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\tipafonts}{yes}}{
   \RequirePackage[noenc]{tipa}
-  \ifthenelse{\equal{\ampedition}{reduced}}{}{% only needed if not using pdf14
+  \ifthenelse{\equal{\ampedition}{reduced}}{% only needed if courier is the monospace font
+    \substitutefont{T3}{\ttdefault}{cmtt}
+  }{% only needed if not using pdf14
     \substitutefont{T3}{\rmdefault}{ptm}
     \substitutefont{T3}{\sfdefault}{phv}
-  }
-  \ifthenelse{\equal{\ampmonofont}{spacemono}}{}{% only needed if not using spacemono
-    \substitutefont{T3}{\ttdefault}{cmtt}
   }
 }{}
 
