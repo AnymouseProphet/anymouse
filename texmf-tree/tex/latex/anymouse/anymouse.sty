@@ -1,11 +1,11 @@
 \NeedsTeXFormat{LaTeX2e}
 \def\fileversion{0.3}
-\def\filedate{2021/07/14}
+\def\filedate{2021/07/15}
 \ProvidesPackage{anymouse}[\filedate\space v\fileversion]
 
 \message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Pipfrosch Press publications (anymouseprophet)}
 
-\RequirePackage{kvoptions}
+\RequirePackage{keyval}
 \RequirePackage{ampean13isbn}
 \RequirePackage{ifthen}
 \RequirePackage{siunitx}
@@ -20,66 +20,11 @@
 \newcommand{\tipafonts}{no}
 \newcommand{\lgrgreek}{no}
 %
-%
-%
-%\define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
-%\define@key{amp}{math}[yes]{\renewcommand{\mathfonts}{#1}}
-%\define@key{amp}{greek}[txr]{\renewcommand{\lgrgreek}{#1}}
-%\define@key{amp}{tipa}[yes]{\renewcommand{\tipafonts}{#1}}
-%\SetupKeyvalOptions
-%
-%
-%
-\DeclareOption{canonical}{
-  \renewcommand{\ampedition}{canonical}
-}
-\DeclareOption{printshop}{
-  \renewcommand{\ampedition}{printshop}
-}
-\DeclareOption{reduced}{
-  \renewcommand{\ampedition}{reduced}
-}
-\DeclareOption{grayscale}{
-  \renewcommand{\ampedition}{grayscale}
-%  \renewcommand{\ampcolor}{no}
-}
-\DeclareOption{sans}{
-  \renewcommand{\ampedition}{sans}
-%  \renewcommand{\ampcolor}{no}
-}
-%
-\DeclareOption{math}{\renewcommand{\mathfonts}{yes}}
-\DeclareOption{tipa}{
-  \renewcommand{\tipafonts}{yes}
-%  \renewcommand{\replacefonts}{yes}
-}
-\DeclareOption{lgr}{
-  \renewcommand{\lgrgreek}{txr}
-%  \renewcommand{\replacefonts}{yes}
-}
-\DeclareOption{txr}{
-  \renewcommand{\lgrgreek}{txr}
-%  \renewcommand{\replacefonts}{yes}
-}
-\DeclareOption{porson}{
-  \renewcommand{\lgrgreek}{porson}
-%  \renewcommand{\replacefonts}{yes}
-}
-\DeclareOption{udidot}{
-  \renewcommand{\lgrgreek}{udidot}
-%  \renewcommand{\replacefonts}{yes}
-}
-\DeclareOption{epigrafica}{
-  \renewcommand{\lgrgreek}{epigrafica}
-%  \renewcommand{\replacefonts}{yes}
-}
-\DeclareOption{artemisia}{
-  \renewcommand{\lgrgreek}{artemisia}
-%  \renewcommand{\replacefonts}{yes}
-}
-\DeclareOption*{\PackageWarning{anymouse}{Unknown ‘\CurrentOption’}}
-\ProcessOptions\relax
-%
+\define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
+\define@key{amp}{math}[yes]{\renewcommand{\mathfonts}{#1}}
+\define@key{amp}{greek}[txr]{\renewcommand{\lgrgreek}{#1}}
+\define@key{amp}{tipa}[yes]{\renewcommand{\tipafonts}{#1}}
+\ProcessKeyvalOptions{amp}
 % post process
 \ifthenelse{\equal{\tipafonts}{no}}{}{%
   \renewcommand{\tipafonts}{yes}
@@ -108,23 +53,13 @@
   }{}
 }
 \ifthenelse{\equal{\lgrgreek}{no}}{}{%
-  \IfFileExists{lgr\lgrgreek{}.fd}{}{% else
-    \PackageWarning{anymouse}{LGR encoding font definitions for \lgrgreek not found, using txr instead}
+  \newcommand{\lgrtestfile}{lgr\lgrgreek .fd}
+  \IfFileExists{\lgrtestfile}{}{% else
+    \PackageWarning{anymouse}{LGR encoding definition \lgrtestfile{} not found, using txr font instead}
     \renewcommand{\lgrgreek}{txr}
   }
   \renewcommand{\replacefonts}{yes}
 }
-%
-%
-%
-%%%\ifthenelse{\equal{\ampedition}{reduced}}{
-%%%    \ifthenelse{\equal{\mathfonts}{yes}}{
-%%%      \IfFileExists{mtpro2.sty}{}{% else
-%%%        \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
-%%%        \renewcommand{\ampedition}{notreduced}
-%%%      }
-%%%    }{}
-%%%}{}
 
 % used within quote environment for historic documents
 \newcommand{\ampscriptfont}{\fontfamily{qzc}\selectfont\large}
