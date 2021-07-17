@@ -102,15 +102,15 @@ When `\emph{}` is used for italicized text:
 
 produces
 
-    *This sentence has* double emphasis *in it.*
+*This sentence has* double emphasis *in it.*
 
 With the redefined `\emph{}` using bold, it produces:
 
-    __This sentence has double emphasis in it.__
+__This sentence has double emphasis in it.__
 
 when it should produce:
 
-    __This sentence has__ double emphasis __in it.__
+__This sentence has__ double emphasis __in it.__
 
 That bug needs to be fixed.
 
