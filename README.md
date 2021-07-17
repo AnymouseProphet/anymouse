@@ -114,3 +114,7 @@ __This sentence has__ double emphasis __in it.__
 
 That bug needs to be fixed.
 
+There's another bug that causes it sometimes to eat the contained whitespace.
+
+Basically I have to recreate the replacement function.
+
