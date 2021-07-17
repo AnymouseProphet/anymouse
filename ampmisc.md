@@ -1,5 +1,5 @@
-The `ampmisc.sty` file
-======================
+The `ampmisc.sty` Package
+=========================
 
 This package is complimentary to the `anymouse.sty` package. It provides some
 additional macro commands useful when authoring political ramblings and
@@ -8,6 +8,8 @@ textbooks.
 This package has one option that can be invoked two different ways. What the
 option does is reduces (not eliminates) the use of italicized text in the output
 of the commands.
+
+Dual-License LPPL and MIT. Whichever floats your boat.
 
 Reduced Italics Method One: Automated
 -------------------------------------
@@ -44,9 +46,41 @@ These are the additional macro commands made available by this package:
 When the Reduced Italics option is active, the standard `\emph{}` command is
 modified to produce bold text instead of italicized text.
 
+### Definition Marker Commands
+
+Sometimes a term is defined within a paragraph. In such cases it is useful to
+indicate such with typography. The commands `\textdef{}' and `\textmdef{}' are
+defined for this purpose.
+
+`\textdef{}` will apply both bold and italics to the term and is intended for
+when the definition of the term is the primary purpose of the paragraph. When
+the Reduced Italics option has been specified, `\textdef{}' will only apply bold
+to the term.
+
+`\textmdef{}` will apply italics to the term and is intended for when the
+definition of the term is auxillary to the paragraph or has recently been
+defined in a previous paragraph. when the Reduced Italics option has been
+specified, `\textmdef{}' will not apply italics but instead will put the term
+inside curly single quotes.
+
+#### Example Usage
+
+    \textdef{Euclidean Division} is the process of dividing one integer called
+    the \textmdef{dividend} by another integer called the \textmdef{divisor}
+    such that the answer is expressed as one integer called the
+    \textmdef{quotient} and a possible second integer called the
+    \textmdef{remainder}.
+
+The main purpose of that paragraph is to define Euclidean Geometry, so that term
+is marked up with the `\textdef{}` macro.
+
+The other four terms are defined in the same paragraph but are auxillary so they
+are marked up with the `\textmdef{}` macro.
+
+
 ### Chancery Script Font
 
-The `\ampscriptfont` command expands to select the Chancery font from the Main
+The `\ampscriptfont{}` command expands to select the Chancery font from the Main
 Document Fonts collection. The intended use is within a
 `\begin{quote}...\end{quote}` environment when quoting a document of historical
 and cultural significance, such as a snippet from the Declaration of
@@ -101,6 +135,10 @@ The `\footbib{}` command which takes six arguments:
 6. ISBN
 
 The `\footbib{}` macro then formats it in the footnote of the page.
+
+Unless the Reduced Italics option has been specified, the title will be
+italicized. If the Reduced Italics option has been specified, the title will be
+put inside double curly-quotes.
 
 #### Example Usage
 
