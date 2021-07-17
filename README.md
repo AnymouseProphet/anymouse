@@ -10,6 +10,8 @@ THIS README IS OUT OF DATE
 
     THIS README IS OUR OF DATE
 
+THIS README BE OUT OF DATE
+
 
 
 This is a LaTeX package that sets the fonts and some other macros used by the
