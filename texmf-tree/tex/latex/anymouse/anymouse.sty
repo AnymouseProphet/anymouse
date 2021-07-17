@@ -1,13 +1,28 @@
 \NeedsTeXFormat{LaTeX2e}
-\def\fileversion{0.3}
-\def\filedate{2021/07/15}
+\def\fileversion{0.4}
+\def\filedate{2021/07/17}
 \ProvidesPackage{anymouse}[\filedate\space v\fileversion]
-
+%% Copyright 2021 The Anymouse Prophet
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This file may also be distributed and/or modified under the
+% conditions of the MIT license. See
+%   https://opensource.org/licenses/MIT
+%
+% To include this file in a larger project, you may choose
+% one or both licenses at your discretion.
+%
 \message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Pipfrosch Press publications (anymouseprophet)}
 
 \RequirePackage[utf8]{inputenc}
-\RequirePackage{keyval}
-\RequirePackage{ampean13isbn}
+\RequirePackage{kvoptions}
 \RequirePackage{ifthen}
 \RequirePackage{siunitx}
 \RequirePackage{letltxmacro}
@@ -16,27 +31,28 @@
 \RequirePackage{afterpage}
 % default options
 \newcommand{\ampedition}{canonical}
+\newcommand{\textedition}{Canonical PDF}
 \newcommand{\ampcolor}{yes}
 \newcommand{\mathfonts}{no}
 \newcommand{\replacefonts}{no}
 \newcommand{\tipafonts}{no}
 \newcommand{\lgrgreek}{no}
+\newcommand{\mkisbn}{no}
 %
 \define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
-\define@key{amp}{math}[yes]{\renewcommand{\mathfonts}{#1}}
 \define@key{amp}{greek}[txr]{\renewcommand{\lgrgreek}{#1}}
-\define@key{amp}{tipa}[yes]{\renewcommand{\tipafonts}{#1}}
+\define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
+\define@key{amp}{tipa}[]{\renewcommand{\tipafonts}{yes}}
+\define@key{amp}{isbn}[]{\renewcommand{\mkisbn}{yes}}
+\InputIfFileExists{./anymouse.cfg}{}{}
 \ProcessKeyvalOptions{amp}
 % post process
-\ifthenelse{\equal{\tipafonts}{no}}{}{%
-  \renewcommand{\tipafonts}{yes}
+\ifthenelse{\equal{\tipafonts}{yes}}{%
   \renewcommand{\replacefonts}{yes}
-}
-\ifthenelse{\equal{\mathfonts}{no}}{}{%
-  \renewcommand{\mathfonts}{yes}
-}
+}{}
 \ifthenelse{\equal{\ampedition}{canonical}}{}{%change defaults as needed
   \ifthenelse{\equal{\ampedition}{reduced}}{
+    \renewcommand{\textedition}{Reduced File Size PDF}
     \ifthenelse{\equal{\mathfonts}{yes}}{
       \IfFileExists{mtpro2.sty}{}{% else
         \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
@@ -45,13 +61,20 @@
     }{}
   }{}
   \ifthenelse{\equal{\ampedition}{grayscale}}{
+    \renewcommand{\textedition}{Grayscale PDF}
     \renewcommand{\ampcolor}{no}
   }{}
   \ifthenelse{\equal{\ampedition}{greyscale}}{
+    \renewcommand{\ampedition}{grayscale}
+    \renewcommand{\textedition}{Grayscale PDF}
     \renewcommand{\ampcolor}{no}
   }{}
   \ifthenelse{\equal{\ampedition}{sans}}{
+    \renewcommand{\textedition}{Sans Serif PDF}
     \renewcommand{\ampcolor}{no}
+  }{}
+  \ifthenelse{\equal{\ampedition}{printshop}}{
+    \renewcommand{\textedition}{Hardcover}
   }{}
 }
 \ifthenelse{\equal{\lgrgreek}{no}}{}{%
@@ -62,11 +85,9 @@
   }
   \renewcommand{\replacefonts}{yes}
 }
-
-% used within quote environment for historic documents
-\newcommand{\ampscriptfont}{\fontfamily{qzc}\selectfont\large}
-% used within footnotes and LCCN
-\newcommand{\ampcondensedfont}{\fontfamily{qhv}\fontseries{mc}\selectfont}
+\ifthenelse{\equal{\mkisbn}{yes}}{
+  \RequirePackage{ampean13isbn}
+}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The amssymb package has to be loaded before TeX Gyre %
@@ -101,6 +122,7 @@
 \LetLtxMacro\oldttfamily\ttfamily
 \DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
 \def\ttsize{\small}
+\newcommand{\setttsize}[1]{\def\ttsize{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Special Case Clear Sans as body font %
@@ -109,8 +131,6 @@
   \RequirePackage[sfdefault]{ClearSans}
   \RequirePackage{ragged2e}
   \setlength{\RaggedRightParindent}{\parindent}
-  \let\emph\relax
-  \DeclareTextFontCommand{\emph}{\bfseries}
 }{}
 
 % Do we need font encoding substitutes?
@@ -165,5 +185,5 @@
   \renewcommand{\ampedition}{reduced}
 }
 %load misc macros
-\RequirePackage{ampmisc}
+%\RequirePackage{ampmisc}
 \endinput

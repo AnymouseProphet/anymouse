@@ -1,0 +1,21 @@
+\NeedsTeXFormat{LaTeX2e}
+\def\fileversion{0.1}
+\def\filedate{2021/07/17}
+\ProvidesPackage{ampcovid}[\filedate\space v\fileversion]
+
+% not yet ready for use
+% Coronavirus Lineages
+% --------------------
+%
+%For consistency across documents several commands for specifying coronavirus
+%lineages have been defined.
+
+\message{`ampcovid' v\fileversion, \filedate\space Loads custom macros for Coronavirus lineages (anymouseprophet)}
+
+% for coronavirus lineages
+\newcommand{\sars}[1][]{\ifx&#1&SARS-CoV\else SARS-CoV-#1\fi}
+\newcommand{\mers}[1][]{\ifx&#1&MERS-CoV\else MERS-CoV-#1\fi}
+\newcommand{\hcov}[1][]{\ifx&#1&HCoV\else HCoV-#1\fi}
+\newcommand{\ccov}[1][]{\ifx&#1&CCoV\else CCoV-#1\fi}
+%
+\endinput
