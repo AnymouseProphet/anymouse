@@ -1,9 +1,48 @@
 The `ampmisc.sty` file
 ======================
 
-This foo foo
+This package is complimentary to the `anymouse.sty` package. It provides some
+additional macro commands useful when authoring political ramblings and
+textbooks.
+
+This package has one option that can be invoked two different ways. What the
+option does is reduces (not eliminates) the use of italicized text in the output
+of the commands.
+
+Reduced Italics Method One: Automated
+-------------------------------------
+
+If you load this package *at the same time* as `anymouse.sty` then it will
+automatically reduce the italics depending up the arguments passed for the
+`anymouse.sty` package:
+
+    \usepackage[options]{anymouse,ampmisc}
+
+In that usage case, reduced italics are activated when the `edition=sans` option
+is passed as an argument. Any other `edition=value` or `edition` without a value
+or lack of an `edition` argument and italics are not reduced.
+
+Reduced Italics Method Two: Manual
+----------------------------------
+
+If you load this package *separately* from `anymouse.sty` you can still get
+reduced italics by passing the argument `reditalics` to this package:
+
+    \usepackage[reditalics]{ampmisc}
+
+In that usage case, you turn reduced italics on or off based upon whether or not
+that argument is passed at package load time.
 
 
+Commands Defined by `ampmisc.sty`
+---------------------------------
+
+These are the additional macro commands made available by this package:
+
+### Modified `\emph{}` Command
+
+When the Reduced Italics option is active, the standard `\emph{}` command is
+modified to produce bold text instead of italicized text.
 
 ### Chancery Script Font
 
@@ -12,6 +51,9 @@ Document Fonts collection. The intended use is within a
 `\begin{quote}...\end{quote}` environment when quoting a document of historical
 and cultural significance, such as a snippet from the Declaration of
 Independence.
+
+The font defined is "TeX Gyre Chorus" which is very similar to (by design) the
+fonts URW Chancery L Medium Italic and ITC Zapf Chancery Medium Italic.
 
 Be careful with its usage. A fancy chancery font can inspire an emotion of
 reverence and is therefore a very useful typesetting tool, but chancery fonts
@@ -32,9 +74,10 @@ high school education will be somewhat familiar with.
 
 ### Condensed Font
 
-The `\ampcondensedfont` command expands to select the Narrow or Condensed font
-from the Main Document Fonts collection. The intended use is wherever such a
-font is needed.
+The `\ampcondensedfont{}` command expands to select the TeX Gyre Heros Condensed
+font. It takes no arguments.
+
+The intended use is wherever such a condensed font is needed.
 
 #### Example Usage
 
@@ -42,13 +85,13 @@ font is needed.
 
 ### Bibliography in Footer
 
-What the Anymouse Prophet publishes should not be considered academic works and
-most of what I reference are web pages archived at archive.org. For that reason
-I do not use an actual "Works Cited" in most of my ramblings but use a footnote
-as a hyperlink.
+When publishing political ramblings, a proper "Works Cited" appendix section is
+sometimes overkill.
 
-The few times I do reference a book, I reference it as a footnote using the
-`\footbib{}` command which takes six arguments:
+The `\footbib{}` command allows for citing a printed work within the footnote of
+the page in which it occurs.
+
+The `\footbib{}` command which takes six arguments:
 
 1. Title
 2. Author
@@ -57,7 +100,7 @@ The few times I do reference a book, I reference it as a footnote using the
 5. Publisher
 6. ISBN
 
-The `\footbib{}` macro then formats it for the footnate of the page.
+The `\footbib{}` macro then formats it in the footnote of the page.
 
 #### Example Usage
 
@@ -76,19 +119,19 @@ The `footurl{}` macro command gives a hyperlink URL reference as a footnote.
 When using an inline hyperlink, it is important to also make a footnote with
 the hyperlink for those reading a printed copy.
 
-The `amphref{}` macro command does this and like the standard `href{}` command
+The `\amphref{}` macro command does this and like the standard `href{}` command
 it takes two arguments: The hyperlink, and the text.
 
 #### Example Usage
 
-    The \amphref{https://www.tug.org/texlive/}{TeXLive} distribution of LaTeX
+    The \amphref{https://www.tug.org/texlive/}{\TeX{}Live} distribution of LaTeX
     runs on just about every operating system currently in use.
 
 ### Roman Numerals
 
-The `amprom{}` macro command turns a Hindu-Arabic numberal into a Roman Numeral.
-It takes a single argument. I sometimes mess up when making Roman Numerals
-manually so this macro helps me get it right.
+The `\amprom{}` macro command turns a Hindu-Arabic numberal into a Roman
+Numeral. It takes a single argument. I sometimes mess up when making Roman
+Numerals manually so this macro helps me get it right.
 
 #### Example Usage
 

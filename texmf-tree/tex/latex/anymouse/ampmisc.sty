@@ -10,7 +10,7 @@
 \newcommand{\ampitalics}{yes}
 \newcommand{\miscedition}{foo}
 %
-\define@key{amp}{noitalics}[]{\renewcommand{\ampitalics}{no}}
+\define@key{amp}{reditalics}[]{\renewcommand{\ampitalics}{no}}
 \define@key{amp}{edition}[bar]{\renewcommand{\miscedition}{#1}}
 \ProcessKeyvalOptions{amp}
 \ifthenelse{\equal{\miscedition}{sans}}{
@@ -31,9 +31,16 @@
 % #4 - publication year
 % #5 - publisher
 % #6 - ISBN
-\newcommand{\footbib}[6]{%
-\footnote{\ampcondensedfont{\textit{#1} by #2; \textbf{#3}; (#4) #5. ISBN #6.}}%
-}% end new command
+\ifthenelse{\equal{\ampitalics}{yes}}{
+  \newcommand{\footbib}[6]{%
+  \footnote{\ampcondensedfont{\textit{#1} by #2; \textbf{#3}; (#4) #5. ISBN #6.}}%
+  }% end new command
+}{
+  \newcommand{\footbib}[6]{%
+  \footnote{\ampcondensedfont{``#1'' by #2; \textbf{#3}; (#4) #5. ISBN #6.}}%
+  }% end new command
+}
+%
 % url in footnote
 \newcommand\footurl[1]{\footnote{\texttt{\footnotesize \href{#1}{#1}}}}
 % url in footnote with reference
@@ -54,9 +61,10 @@
   \newcommand{\textdef}[1]{\textbf{\textit{#1}}}
   \newcommand{\textmdef}[1]{\textit{#1}}
 }{
-%  \newcommand{\textedition}{Sans Serif PDF}
   \newcommand{\textdef}[1]{\textbf{#1}}
   \newcommand{\textmdef}[1]{`{#1}'}
+  \let\emph\relax
+  \DeclareTextFontCommand{\emph}{\bfseries}
 }
 
 % for coronavirus lineages
