@@ -50,16 +50,16 @@ set to `canonical`.
 
 The values associated with this option:
 
-1. `edition=canonical`  
+`edition=canonical`  
 &nbsp;&nbsp;&nbsp;&nbsp;The default option. Results in loading the `newtxtext`
 package that loads TeX Gyre Termes as the body font and TeX Gyre Heros as the
 heading font and Space Mono as the Typewriter font.
 
-2. `edition=printshop`  
+`edition=printshop`  
 &nbsp;&nbsp;&nbsp;&nbsp;Identical to `edition=canonical` as far as the code
 within this package is concerned.
 
-3. `edition=grayscale`  
+`edition=grayscale`  
 &nbsp;&nbsp;&nbsp;&nbsp;Identical to `edition=canonical` __except__ that it sets
 the `\ampcolor` command to `no` and from the `soul` packages, changes the `\hl`
 command to be identical to the `\ul` command.
