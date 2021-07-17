@@ -5,6 +5,7 @@
 
 \message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Pipfrosch Press publications (anymouseprophet)}
 
+\RequirePackage[utf8]{inputenc}
 \RequirePackage{keyval}
 \RequirePackage{ampean13isbn}
 \RequirePackage{ifthen}
@@ -12,6 +13,7 @@
 \RequirePackage{letltxmacro}
 \RequirePackage[table,usenames,dvipsnames]{xcolor}
 \RequirePackage{soul}
+\RequirePackage{afterpage}
 % default options
 \newcommand{\ampedition}{canonical}
 \newcommand{\ampcolor}{yes}
@@ -33,7 +35,7 @@
 \ifthenelse{\equal{\mathfonts}{no}}{}{%
   \renewcommand{\mathfonts}{yes}
 }
-\ifthenelse{\equal{\ampedition}{canonical}}{}{%
+\ifthenelse{\equal{\ampedition}{canonical}}{}{%change defaults as needed
   \ifthenelse{\equal{\ampedition}{reduced}}{
     \ifthenelse{\equal{\mathfonts}{yes}}{
       \IfFileExists{mtpro2.sty}{}{% else
@@ -105,6 +107,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\ampedition}{sans}}{
   \RequirePackage[sfdefault]{ClearSans}
+  \RequirePackage{ragged2e}
+  \setlength{\RaggedRightParindent}{\parindent}
+  \let\emph\relax
+  \DeclareTextFontCommand{\emph}{\bfseries}
 }{}
 
 % Do we need font encoding substitutes?

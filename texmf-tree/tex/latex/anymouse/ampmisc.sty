@@ -32,10 +32,30 @@
 \DeclareSIUnit{\hour}{hr}
 \DeclareSIUnit{\year}{yr}
 
+\ifthenelse{\equal{\ampedition}{printshop}}{
+  \newcommand{\textedition}{Hardcover}
+}{}
+\ifthenelse{\equal{\ampedition}{canonical}}{
+  \newcommand{\textedition}{Canonical PDF}
+}{}
+\ifthenelse{\equal{\ampedition}{grayscale}}{
+  \newcommand{\textedition}{Grayscale PDF}
+}{}
+\ifthenelse{\equal{\ampedition}{reduced}}{
+  \newcommand{\textedition}{Reduced File Size PDF}
+}{}
+\ifthenelse{\equal{\ampedition}{sans}}{
+  \newcommand{\textedition}{Sans Serif PDF}
+  \newcommand{\textdef}[1]{\textbf{#1}}
+  \newcommand{\textmdef}[1]{`{#1}'}
+}{
+  \newcommand{\textdef}[1]{\textbf{\textit{#1}}}
+  \newcommand{\textmdef}[1]{\textit{#1}}
+}
+
 % for coronavirus lineages
 \newcommand{\sars}[1][]{\ifx&#1&SARS-CoV\else SARS-CoV-#1\fi}
 \newcommand{\mers}[1][]{\ifx&#1&MERS-CoV\else MERS-CoV-#1\fi}
 \newcommand{\hcov}[1][]{\ifx&#1&HCoV\else HCoV-#1\fi}
 \newcommand{\ccov}[1][]{\ifx&#1&CCoV\else CCoV-#1\fi}
 \endinput
-
