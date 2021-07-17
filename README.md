@@ -135,119 +135,100 @@ to your LaTeX system, then it uses the default `txr` font.
 You can then typeset Greek text via the `\textgreek{}` command. For example
 `\textgreek{Ellhnik'a alf'abhto}` produces: Ελληνικά αλφάβητο
 
+See (http://tug.ctan.org/language/greek/greek-fontenc/lgrenc.def.html) if you
+need assistance in figuring our Latin keyboard to LGR encoding.
 
-### Main Document Fonts
+Package Macro Definitions and Commands
+--------------------------------------
 
-Defaults to `texgyre`. This option determines whether fonts from the PostScript
-Level 2 "Base35" fonts should be used or whether the very similar but updated
-fonts from the TeX Gyre collection should be used.
+The following public commands are defined:
 
-When set to the optional `base35` the package will look to see if the MathTime
-Pro 2 package is available and if it is not, it will throw a warning and use the
-TeX Gyre collection instead.
+`\ampedition{}`  
+&nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produces a text string that will be one
+of `canonical`, `printshop`, `grayscale`, `reduced`, or `sans` depending upon
+the option passed to the package with the `edition` key.
 
-### Monospace (Typewriter) Font Family
+`\ampcolor{}`  
+&nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produces a text string `yes` *unless* the
+argument `edition=grayscale` or `edition=sans` was passed as a package option.
 
-Defaults to `spacemono`. This option determines whether the monospace font
-should be Space Mono or a monospace font from the Main Document Fonts
-collection.
+`\textgreek[1]{}`  
+&nbsp;&nbsp;&nbsp;&nbsp; One argument. Only available when a Greek font has been
+made available. The argument is the text to be typeset using the LGR encoding.
 
-When set to the default `spacemono` the package will look to see if the LaTeX
-Space Mono package is available and if not, it will throw a warning and use a
-monospace font from the Main Document Font collection instead.
+`\setttsize{\small}`  
+&nbsp;&nbsp;&nbsp;&nbsp; Reduces the size of the monospace font, which I find to
+be a little too big compared to the Serif font.
 
-When `courier` is specified as a package option or when the LaTeX `spacemono`
-package is not available, it will use Courier (or Nimbus Mono L) if the Main
-Document Fonts option is set to `base35` or it will use TeX Gyre-Cursor if the
-Main Document Fonts option is set to `texgyre`.
+Other commands are made available as a result of loaded packages.
 
-### Canonical
+Package Redefined Commands
+--------------------------
 
-Defaults to no.
+When the option `edition=sans` is passed to the package, the standard `\emph{}`
+command is redefined to typeset bold text instead of italicized text.
 
-First I would like to explain the Anymouse Prophet concept of Canonical.
+When either the the option `edition=grayscale` or `edition=sans` is passed to
+the package, the `\hl{}` command from the `soul` package is redefined to be an
+alias for the `\ul{}` command from the `soul` package.
 
-A Canonical document is a document that is intended to have both an ISBN number
-attached to it and will have a cryptography signature on the PDF vouching for
-the authenticity of the PDF.
+Packages Loaded by `anymouse.sty`
+---------------------------------
 
-The Anymouse Prophet uploads the signed version of the PDF to archive.org where
-it can be freely retrieved without cost by anyone who wants to read it.
+The following packages are loaded by `anymouse.sty`:
 
-The Canonical version will be a color document, making it not suitable due to
-cost for people to print and send to politicians or other parties, but printed
-versions can not be authenticated as coming from the Anymouse Prophet without
-modification, so most printed versions are NOT canonical.
+### `\RequirePackage[utf8]{inputenc}`
 
-The non-canonical versions will be monochrome and lack the ISBN number. To
-compile them from the same LaTeX as canonical, a macro defines whether or not
-the document being compiled is canonical. When it is not canonical, the ISBN
-number is not added and only monochrome is used so that it is cheap to print.
+I *believe* `utf8` is the default input encoding for modern LaTeX distributions
+but that wasn't always the case. Specifically setting it here makes sure it is
+set to `utf8`.
 
-When the `canonical` option is passed to the `anymouse` package __and__ the
-`digsig.sty` package is available then the `canonicalversion` macro is set to
-`yes`. Otherwise it is defined as `no`.
+I set it here so it does not need to be set in the preamble. That way if and
+when this package is ported to support LuaLaTeX and/or XeLaTeX font handling,
+as those compiler *I believe* do not use `inputenc`, documents that use this
+package will work regardless of which compiler is used without needing to worry
+about the differences.
 
-### TIPA
+### `\RequirePackage{keyval}`
 
-This is for typesetting the International Phonetic Alphabet (IPA).
+This package is needed by `anymouse.sty` for processing of the `key=value`
+package options.
 
-Defaults to no.
+### `\RequirePackage{ampean13isbn}`
 
-When the `tipa` option is passed to the `anymouse` package, the tipa package is
-automatically loaded and appropriate font substitutions are set up so that when
-the LaTeX compiler encounters strings specified as wanting a `T3` encoding, the
-appropriate font from the `tipa` package is used (depending upon serif,
-sans-serif, or monospace) to typeset the output.
+Loaded by `anymouse.sty` but not specifically used by `anymouse.sty`.
 
-You can then use the `\textipa{}' command to typeset IPA characters. For
-example:
+This is provided within this project. It is a version of `ean13isbn` that has
+been modified to use TeX Gyre Condensed in a T1 encoding instead of Helvetica
+Condensed in an OT1 encoding.
 
-    \textipa{/"2ps\;Il6n/}
+It is used for genrating ISBN barcodes. For usage, see the documentation at
+(https://ctan.org/pkg/ean13isbn)
 
-will typeset the following IPA:
+### `\RequirePackage{ifthen}`
 
-    /ˈʌpsɪlɒn/
+Provides "if then else" facilities. For usage, see the documentation at
+(https://ctan.org/pkg/ifthen)
 
-A full listing of how to type IPA characters within the `\textipa{}` command can
-be found in the package manual at (https://ctan.org/pkg/tipa).
+### `\RequirePackage{siunitx}`
 
-### Options Summary
+Loaded by `anymouse.sty` but not specifically used by `anymouse.sty`. It is used
+by `ampmisc.sty`.
 
-When no options are selected, `anymouse.sty` defaults to using the updated TeX
-Gyre as the Main Document Fonts. These fonts are based on the "Base 35" fonts
-but are improved and updated.
+Provides facilities for using standardized scientific units. For usage, see the
+documentation at (https://ctan.org/pkg/siunitx)
 
-When no options are selected, `anymouse.sty` defaults to using the Space Mono
-font for monospace *unless* Space Mono is not available, in which case it will
-use the monospace font either from the "Base35" fonts or the TeX Gyre fonts.
+### `\RequirePackage{letltxmacro}`
 
-When no options are selected, `anymouse.sty` will set the `\canonicalversion`
-macro to `no`.
-
-When the `base35` option is specified to `anymouse.sty` __and__ MathTime Pro 2
-is available then the PostScript Level 2 "Base 35" fonts will be used as the
-Main Document Fonts.
-
-When the `courier` option is specified to `anymouse.sty` the monospace font from
-either the "Base35" collection or from the TeX Gyre fonts will be used
-regardless of whether or not Space Mono is available.
-
-When the `canonical` option is specified to `anymouse.sty` __and__ the
-`digsig.sty` package is available then the `\canonicalversion` macro is set to
-`yes`. Otherwise it is set to `no`.
+Used to allow reducing the monospace font size.
 
 
-Usage Example
--------------
-This package should be loaded *after* the `documentclass` declaration in the
-preamble.
 
-    \documentclass[twoside, letterpaper, fontsize=14pt]{scrartcl}
-    \usepackage[T1]{fontenc}
-    \usepackage[utf8]{inputenc}
-    \usepackage[base35,canonical]{anymouse}
-    % rest of preamble
+
+
+
+
+
 
 
 Package Macro Commands

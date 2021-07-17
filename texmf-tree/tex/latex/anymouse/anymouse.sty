@@ -101,6 +101,7 @@
 \LetLtxMacro\oldttfamily\ttfamily
 \DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
 \def\ttsize{\small}
+\newcommand{\setttsize}[1]{\def\ttsize{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Special Case Clear Sans as body font %
