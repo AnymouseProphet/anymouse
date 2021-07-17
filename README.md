@@ -83,10 +83,8 @@ can be quality printed grayscale.
 
 ### The `math` option
 
-This is a binary option. When not specified or when specified as `math=no` then
-math fonts are not loaded. When specified as `math` without a value or when
-specified as `math=whatever` where `wherever` is anything other than no, then
-math packages and fonts are loaded.
+This is a binary option, a value is not necessary. When not present then math
+fonts are not loaded.
 
 The following math packages are loaded as a result of this option:
 
@@ -104,10 +102,8 @@ For `edition=reduced`
 
 ### The `tipa` option
 
-This is a binary option. When not specified or when specified as `tipa=no` then
-the `tipa` package is not loaded. When specified as `tipa` without a value or
-when specified as `tipa=whatever` where `wherever` is anything other than no,
-then the `tipa` package is loaded.
+This is a binary option, a value is not necessary. When not present then the
+`tipa` package is not loaded.
 
 The `tipa` package is needed to typeset IPA pronunciations. At this time, this
 package only supports using the IPA fonts that come as part of the `tipa`
@@ -137,6 +133,13 @@ You can then typeset Greek text via the `\textgreek{}` command. For example
 
 See (http://tug.ctan.org/language/greek/greek-fontenc/lgrenc.def.html) if you
 need assistance in figuring our Latin keyboard to LGR encoding.
+
+### The `isbn` option
+
+This is a binary option. It is turned off when not used and turned on when it is
+used.
+
+This option causes the `ampean13isbn` package to load.
 
 Package Macro Definitions and Commands
 --------------------------------------
@@ -189,7 +192,7 @@ as those compiler *I believe* do not use `inputenc`, documents that use this
 package will work regardless of which compiler is used without needing to worry
 about the differences.
 
-### `\RequirePackage{keyval}`
+### `\RequirePackage{kvoptions}`
 
 This package is needed by `anymouse.sty` for processing of the `key=value`
 package options.

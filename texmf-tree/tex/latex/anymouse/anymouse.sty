@@ -24,19 +24,15 @@
 \newcommand{\mkisbn}{no}
 %
 \define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
-\define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
 \define@key{amp}{greek}[txr]{\renewcommand{\lgrgreek}{#1}}
-\define@key{amp}{tipa}[yes]{\renewcommand{\tipafonts}{#1}}
+\define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
+\define@key{amp}{tipa}[]{\renewcommand{\tipafonts}{yes}}
 \define@key{amp}{isbn}[]{\renewcommand{\mkisbn}{yes}}
 \ProcessKeyvalOptions{amp}
 % post process
-\ifthenelse{\equal{\tipafonts}{no}}{}{%
-  \renewcommand{\tipafonts}{yes}
+\ifthenelse{\equal{\tipafonts}{yes}}{%
   \renewcommand{\replacefonts}{yes}
-}
-\ifthenelse{\equal{\mathfonts}{no}}{}{%
-  \renewcommand{\mathfonts}{yes}
-}
+}{}
 \ifthenelse{\equal{\ampedition}{canonical}}{}{%change defaults as needed
   \ifthenelse{\equal{\ampedition}{reduced}}{
     \renewcommand{\textedition}{Reduced File Size PDF}
@@ -72,7 +68,6 @@
   }
   \renewcommand{\replacefonts}{yes}
 }
-
 \ifthenelse{\equal{\mkisbn}{yes}}{
   \RequirePackage{ampean13isbn}
 }{}
