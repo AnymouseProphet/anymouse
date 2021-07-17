@@ -113,7 +113,27 @@ The `tipa` package is needed to typeset IPA pronunciations. At this time, this
 package only supports using the IPA fonts that come as part of the `tipa`
 package.
 
+To type something in IPA just use `\textipa{}` using the appropriate markup. For
+example `\textipa{/oU"mEg@/}` produces: /oʊˈmɛɡə/
+
+See the `tipa` documentation at (https://ctan.org/pkg/tipa)
+
 ### The `greek` option
+
+This is a hybrid binary/string option. When not specified or when specified as
+`greek=no` then an LGR encoded Greek font is not set up for use.
+
+When specified without a value as `greek` or when specifying `greek=txr` then
+the `txr` Greek font (a good match for Times/TeX Gyre Termes) is specified as
+the LGR encoded Greek font to use.
+
+When specifies as `greek=whatever` where the file `lgrwhatever.fd` is known to
+the LaTeX system (e.g. `lgrartemisia.fd` or `lgrgentium.fd`) then `whatever` is
+specified as the LGR encoded Greek font to use. If `lgrwhatever.fd` is not known
+to your LaTeX system, then it uses the default `txr` font.
+
+You can then typeset Greek text via the `\textgreek{}` command. For example
+`\textgreek{Ellhnik'a alf'abhto}` produces: Ελληνικά αλφάβητο
 
 
 ### Main Document Fonts
