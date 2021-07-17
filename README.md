@@ -17,7 +17,7 @@ This package is still in development.
 This is the primary style file in this package. It is dual-licensed LPPL and
 MIT.
 
-For usage, see [a relative link](anymouse.md)
+For usage, see [anymouse.md](anymouse.md)
 
 
 `ampmisc.sty`
@@ -26,4 +26,4 @@ For usage, see [a relative link](anymouse.md)
 A complimentary file to `anymouse.sty` that defines macros commonly used by the
 Anymouse Prophet in his writings.
 
-For usage, see [a relative link](ampmisc.md)
+For usage, see [ampmisc.md](ampmisc.md)
