@@ -44,6 +44,7 @@
 \define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
 \define@key{amp}{tipa}[]{\renewcommand{\tipafonts}{yes}}
 \define@key{amp}{isbn}[]{\renewcommand{\mkisbn}{yes}}
+\InputIfFileExists{./anymouse.cfg}{}{}
 \ProcessKeyvalOptions{amp}
 % post process
 \ifthenelse{\equal{\tipafonts}{yes}}{%

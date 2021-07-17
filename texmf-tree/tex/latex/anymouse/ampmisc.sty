@@ -28,6 +28,7 @@
 %
 \define@key{amp}{reditalics}[]{\renewcommand{\ampitalics}{no}}
 \define@key{amp}{edition}[bar]{\renewcommand{\miscedition}{#1}}
+\InputIfFileExists{./anymouse.cfg}{}{}
 \ProcessKeyvalOptions{amp}
 \ifthenelse{\equal{\miscedition}{sans}}{
   \renewcommand{\ampitalics}{no}
