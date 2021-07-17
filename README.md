@@ -51,18 +51,69 @@ set to `canonical`.
 The values associated with this option:
 
 `edition=canonical`  
-&nbsp;&nbsp;&nbsp;&nbsp;The default option. Results in loading the `newtxtext`
+&nbsp;&nbsp;&nbsp;&nbsp; The default option. Results in loading the `newtxtext`
 package that loads TeX Gyre Termes as the body font and TeX Gyre Heros as the
 heading font and Space Mono as the Typewriter font.
 
 `edition=printshop`  
-&nbsp;&nbsp;&nbsp;&nbsp;Identical to `edition=canonical` as far as the code
+&nbsp;&nbsp;&nbsp;&nbsp; Identical to `edition=canonical` as far as the code
 within this package is concerned.
 
 `edition=grayscale`  
-&nbsp;&nbsp;&nbsp;&nbsp;Identical to `edition=canonical` __except__ that it sets
+&nbsp;&nbsp;&nbsp;&nbsp; Identical to `edition=canonical` __except__ that it sets
 the `\ampcolor` command to `no` and from the `soul` packages, changes the `\hl`
-command to be identical to the `\ul` command.
+command to be identical to the `\ul` command. This is done so that the document
+can be quality printed grayscale.
+
+`edition=reduced`  
+&nbsp;&nbsp;&nbsp;&nbsp; Uses Times instead of TeX Gyre Termes, Helvetica
+instead of TeX Gyre Heros, and Courier instead of Space Mono. The purpose of
+this is so that those three font families do not have to be embedded (every PDF
+viewer has metric compatible equivalents) reducing the file size.
+
+`edition=sans`  
+&nbsp;&nbsp;&nbsp;&nbsp;  Uses Intel Clear Sans instead of TeX Gyre Termes and
+TeX Gyre Heros. Also sets the justification to Ragged-Right instead of justified
+and redefines the `\emph` command to use bold text instead of italicized. This
+is done to assist those with reading disabilities that are often triggered by a
+serif font, justified text, and italicized text. This option also change the
+`\ampcolor` command to `no` and from the `soul` packages, changes the `\hl`
+command to be identical to the `\ul` command. This is done so that the document
+can be quality printed grayscale.
+
+### The `math` option
+
+This is a binary option. When not specified or when specified as `math=no` then
+math fonts are not loaded. When specified as `math` without a value or when
+specified as `math=whatever` where `wherever` is anything other than no, then
+math packages and fonts are loaded.
+
+The following math packages are loaded as a result of this option:
+
+* `amssymb` (math symbols, such as Fraktur symbols)
+* `bm` (additional bold math symbols)
+
+For all `edition` options *except* for `edition=reduced`
+
+* `newtxmath` (math functions and symbols that work with `newtxtext`
+
+For `edition=reduced`
+
+* `amsmath` (math functions and symbols)
+* `mtpro2` (Lite version, math symbols and functions)
+
+### The `tipa` option
+
+This is a binary option. When not specified or when specified as `tipa=no` then
+the `tipa` package is not loaded. When specified as `tipa` without a value or
+when specified as `tipa=whatever` where `wherever` is anything other than no,
+then the `tipa` package is loaded.
+
+The `tipa` package is needed to typeset IPA pronunciations. At this time, this
+package only supports using the IPA fonts that come as part of the `tipa`
+package.
+
+### The `greek` option
 
 
 ### Main Document Fonts
