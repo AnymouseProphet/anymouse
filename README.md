@@ -1,19 +1,6 @@
 anymouse LaTeX 
 ==============
 
-
-THIS README IS OUT OF DATE
-
-    THIS README IS OUT OF DATE
-
-THIS README IS OUT OF DATE
-
-    THIS README IS OUR OF DATE
-
-THIS README BE OUT OF DATE
-
-
-
 This is a LaTeX package that sets the fonts and some other macros used by the
 Anymouse Prophet in his political ramblings.
 
@@ -23,43 +10,60 @@ Install the files within `texmf-tree` into your TEXMF-LOCAL directory using the
 same structure and then run the `texhash` command so that your LaTeX system
 knows about them.
 
-This package will grow over time.
+This package is still in development.
 
 
 Supplemental Packages
 ---------------------
 
-If you want this package to use the Adobe/URW PostScript Level 2 "Base 35" fonts
-then you *must* have the
-[MathTime Professional 2](https://www.pctex.com/mtpro2.html) fonts installed.
-The free "Lite" version is sufficient. Without that package, the TeX Gyre fonts
-are the only option.
+This package requires the
+[Space Mono](https://fonts.google.com/specimen/Space+Mono) package to be
+installed where LaTeX can find and load it.
 
-If you want this package to use
-[Space Mono](https://fonts.google.com/specimen/Space+Mono) as the monospace
-(typewriter) font then you *must* have the
-[SpaceMono-LaTeX](https://github.com/AnymouseProphet/SpaceMono-LaTeX) package
-installed. Without that package, the monospace font from either the "Base 35" or
-TeX Gyre is the only option.
-
-If you want this package to compile a Canonical version that you then digitally
-sign, you *must* have
-[digsig.sty](http://home.htp-tel.de/lottermose2/tex/dist/digsig.sty) installed.
-Some Linux distributions packages it as "latex-digsig" but that file is not part
-of TeXLive itself. If installing it manually, install it as
-`[TEXMF-LOCAL]/tex/latex/digsig/digsig.sty` and note that `anymouse.sty` only
-checks for the file, it does not actually load it because that package *must* be
-loaded *after* hyperref.
+This package needs the 
+[MathTime Professional 2](https://www.pctex.com/mtpro2.html) fonts installed in
+order for the `edition=reduced` option to be fully functional. The free "Lite"
+version is sufficient.
 
 After installing any new LaTeX packages, remember to run `texhash` and after
 installing new fonts, remember to run `updmap-sys --enable Map=whatever.map`
 where `whatever.map` is the map file for the new font package.
 
+For Space Mono:
+
+    updmap-sys --enable Map=spacemono.map
+
+For MathTime Pro 2:
+
+    updmap-sys --enable Map=mtpro2.map
+
 
 Package Options
 ---------------
 
-The package has several options.
+The package currently has four key=value options, described below.
+
+### The `edition` Option
+
+When not specified or when specified to a value it does not understand, this is
+set to `canonical`.
+
+The values associated with this option:
+
+1. `edition=canonical`  
+&nbsp;&nbsp;&nbsp;&nbsp;The default option. Results in loading the `newtxtext`
+package that loads TeX Gyre Termes as the body font and TeX Gyre Heros as the
+heading font and Space Mono as the Typewriter font.
+
+2. `edition=printshop`  
+&nbsp;&nbsp;&nbsp;&nbsp;Identical to `edition=canonical` as far as the code
+within this package is concerned.
+
+3. `edition=grayscale`  
+&nbsp;&nbsp;&nbsp;&nbsp;Identical to `edition=canonical` __except__ that it sets
+the `\ampcolor` command to `no` and from the `soul` packages, changes the `\hl`
+command to be identical to the `\ul` command.
+
 
 ### Main Document Fonts
 
