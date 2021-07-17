@@ -69,8 +69,48 @@ used. Also, it seems the LaTeX3 team is working on adding native support for
 digital form fields to LaTeX so soon, this file will not be necessary.
 
 
+Cryptography Signature Keypair
+==============================
+
+If you would like to create a private/public keypair to add a digital signature
+to a PDF file, see the [keypair.md](keypair.md) file.
 
 
+Future
+======
+
+Currently `anymouse.sty` font handling is centered around the pdfLaTeX.
+compiler. I would like to port it so that it also works with the LuaLaTeX
+compiler and *maybe* the XeLaTeX compiler.
+
+The `anymouse.sty` is centered around the T1 encoding. It should be ported to
+work with other Latin based encodings as well, such as the T5 encoding used for
+Vietnamese.
 
 
+Known Bugs
+==========
+
+When the "Reduced Italic" option is specified to the `ampmisc.sty` package, the
+`\emph{}` command is redefined to use bold text.
+
+It is currently done incorrectly.
+
+When `\emph{}` is used for italicized text:
+
+    \emph{This sentence has \emph{double emphasis} in it.}
+
+produces
+
+    *This sentence has* double emphasis *in it.*
+
+With the redefined `\emph{}` using bold, it produces:
+
+    __This sentence has double emphasis in it.__
+
+when it should produce:
+
+    __This sentence has__ double emphasis __in it.__
+
+That bug needs to be fixed.
 
