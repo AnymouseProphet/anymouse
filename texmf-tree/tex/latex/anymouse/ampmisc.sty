@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\def\fileversion{0.2}
-\def\filedate{2021/07/13}
+\def\fileversion{0.3}
+\def\filedate{2021/07/17}
 \ProvidesPackage{ampmisc}[\filedate\space v\fileversion]
 
 \message{`ampmisc' v\fileversion, \filedate\space Loads custom macros for Anymouse Prophet publications (anymouseprophet)}
@@ -66,10 +66,5 @@
   \let\emph\relax
   \DeclareTextFontCommand{\emph}{\bfseries}
 }
-
-% for coronavirus lineages
-\newcommand{\sars}[1][]{\ifx&#1&SARS-CoV\else SARS-CoV-#1\fi}
-\newcommand{\mers}[1][]{\ifx&#1&MERS-CoV\else MERS-CoV-#1\fi}
-\newcommand{\hcov}[1][]{\ifx&#1&HCoV\else HCoV-#1\fi}
-\newcommand{\ccov}[1][]{\ifx&#1&CCoV\else CCoV-#1\fi}
+%
 \endinput
