@@ -196,6 +196,8 @@ package options.
 
 ### `\RequirePackage{ampean13isbn}`
 
+__NOT IN CTAN/TeXLive__
+
 Loaded by `anymouse.sty` but not specifically used by `anymouse.sty`.
 
 This is provided within this project. It is a version of `ean13isbn` that has
@@ -222,32 +224,141 @@ documentation at (https://ctan.org/pkg/siunitx)
 
 Used to allow reducing the monospace font size.
 
+### `\RequirePackage[table,usenames,dvipsnames]{xcolor}`
+
+Loaded by `anymouse.sty` but not specifically used by `anymouse.sty`.
+
+It is used for very colorful things. For usage, see the documentation at
+(https://ctan.org/pkg/xcolor)
+
+### `\RequirePackage{soul}`
+
+Provides several useful commands for emphasizing text.
+
+Note that when `edition=grayscale` or `edition=sans` that the `anymouse.sty`
+will redefine the highlight command `\hl{}` to the underline command `\ul{}` so
+that color is not used in those edition types.
+
+However if the `\setulcolor{}` command has been used in your document then color
+will be used, so if you do set the underline color, you should wrap that in a
+conditional:
+
+    \ifthenelse{\equal{\ampcolor}{yes}}{
+      \setulcolor{whatever}
+    }{}
+
+For usage, see the documentation at (https://ctan.org/pkg/soul)
+
+### `\RequirePackage{afterpage}`
+
+Loaded by `anymouse.sty` but not specifically used by `anymouse.sty`.
+
+This package is very useful for intelligent placement of floats, amongst other
+things. For usage, see the documentation at (https://www.ctan.org/pkg/afterpage)
+
+### `\RequirePackage{amssymb}`
+
+Only loaded if the `math` option is passed to `anymouse.sty`. Not specifically
+used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://ctan.org/pkg/amsfonts)
+
+### `\RequirePackage{bm}`
+
+Only loaded if the `math` option is passed to `anymouse.sty`. Not specifically
+used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://ctan.org/pkg/bm)
+
+### `\RequirePackage{amsmath}`
+
+Only loaded if the `math` option and the `edition=reduced` option is passed to
+`anymouse.sty`. Not specifically used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://ctan.org/pkg/amsmath)
+
+### `\RequirePackage[lite]{mtpro2}`
+
+__NOT IN CTAN/TeXLive__
+
+Only loaded if the `math` option and the `edition=reduced` option is passed to
+`anymouse.sty`. Not specifically used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://www.pctex.com/mtpro2.html)
+
+### `\RequirePackage{newtxmath}`
+
+Only loaded if the `math` option is passed to `anymouse.sty` but the
+`edition=reduced` option is __NOT__ passed to `anymouse.sty`. Not specifically
+used by `anymouse.sty`.
+
+This package provides function equivalence to `amsmath` and `mtpro2`.
+
+For full usage, see the documentation at (https://ctan.org/pkg/newtx)
+
+### `\RequirePackage{newtxtext}`
+
+Only loaded if the `edition=reduced` option is __NOT__ passed to `anymouse.sty`.
+Not specifically used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://ctan.org/pkg/newtx)
+
+### `\RequirePackage{spacemono}`
+
+__NOT IN CTAN/TeXLive__
+
+Only loaded if the `edition=reduced` option is __NOT__ passed to `anymouse.sty`.
+Not specifically used by `anymouse.sty`.
+
+For full usage, see the documentation at
+(https://github.com/AnymouseProphet/SpaceMono-LaTeX)
+
+### `\RequirePackage[sfdefault]{ClearSans}`
+
+Only loaded if the `edition=sans` option is passed to `anymouse.sty`. Not
+specifically used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://www.ctan.org/pkg/clearsans)
+
+### `\RequirePackage{ragged2e}`
+
+Only loaded if the `edition=sans` option is passed to `anymouse.sty`. Not
+specifically used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://www.ctan.org/pkg/ragged2e)
+
+### `\RequirePackage[*T1]{fontenc}`
+
+If the `tipa` option is passed to `anymouse.sty` then the `T3` encoding is
+passed to `fontenc`.
+
+Ig the `greek` option is passed to `anymouse.sty` then the `LGR` encodinding is
+passed to `fontenc`.
+
+The `T1` encoding is *always* passed to `anymouse.sty` and as the last option.
+
+### `\RequirePackage{substitutefont}`
+
+Only loaded if the `tipa` and or `greek` options are passed to `anymouse.sty`.
+
+This package is used to tell the LaTeX font engine where to get the fonts needed
+to render content in the `T3` and `LGR` encoding used for typesetting IPA and
+non-mathematical Greek.
+
+### `\RequirePackage[noenc]{tipa}`
+
+Only loaded if the `tipa` option is passed to `anymouse.sty`. Not specifically
+used by `anymouse.sty`.
+
+This is the package that provides the `\textipa{}` command. For full usage, see
+the documentation at (https://www.ctan.org/pkg/tipa)
 
 
+TODO -- finish
+
+BELOW is old.
 
 
-
-
-
-
-
-Package Macro Commands
-----------------------
-
-These are the macro commands defined by `anymouse.sty` that are intended to be
-available for use in the LaTeX document.
-
-This section is not yet finished.
-
-### Canonical Version
-
-The `\canonicalversion` command will expand to either `yes` or `no`. This is
-useful for telling the LaTeX compiler whether or not it should use colored
-links, include the ISBN barcode, or include the cryptography signature form.
-
-Note that `anymouse.sty` already loads the [soul](https://www.ctan.org/pkg/soul)
-package but when `\canonicalversion` is `no` then the `\hl{}` command from that
-package is redefined to the `\ul{}` command also from that package.
 
 ### Chancery Script Font
 

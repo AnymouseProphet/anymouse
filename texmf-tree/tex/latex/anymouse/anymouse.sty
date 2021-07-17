@@ -16,6 +16,7 @@
 \RequirePackage{afterpage}
 % default options
 \newcommand{\ampedition}{canonical}
+\newcommand{\textedition}{Canonical PDF}
 \newcommand{\ampcolor}{yes}
 \newcommand{\mathfonts}{no}
 \newcommand{\replacefonts}{no}
@@ -37,6 +38,7 @@
 }
 \ifthenelse{\equal{\ampedition}{canonical}}{}{%change defaults as needed
   \ifthenelse{\equal{\ampedition}{reduced}}{
+    \renewcommand{\textedition}{Reduced File Size PDF}
     \ifthenelse{\equal{\mathfonts}{yes}}{
       \IfFileExists{mtpro2.sty}{}{% else
         \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
@@ -45,13 +47,20 @@
     }{}
   }{}
   \ifthenelse{\equal{\ampedition}{grayscale}}{
+    \renewcommand{\textedition}{Grayscale PDF}
     \renewcommand{\ampcolor}{no}
   }{}
   \ifthenelse{\equal{\ampedition}{greyscale}}{
+    \renewcommand{\ampedition}{grayscale}
+    \renewcommand{\textedition}{Grayscale PDF}
     \renewcommand{\ampcolor}{no}
   }{}
   \ifthenelse{\equal{\ampedition}{sans}}{
+    \renewcommand{\textedition}{Sans Serif PDF}
     \renewcommand{\ampcolor}{no}
+  }{}
+  \ifthenelse{\equal{\ampedition}{printshop}}{
+    \renewcommand{\textedition}{Hardcover}
   }{}
 }
 \ifthenelse{\equal{\lgrgreek}{no}}{}{%
@@ -62,11 +71,6 @@
   }
   \renewcommand{\replacefonts}{yes}
 }
-
-% used within quote environment for historic documents
-\newcommand{\ampscriptfont}{\fontfamily{qzc}\selectfont\large}
-% used within footnotes and LCCN
-\newcommand{\ampcondensedfont}{\fontfamily{qhv}\fontseries{mc}\selectfont}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The amssymb package has to be loaded before TeX Gyre %
@@ -166,5 +170,5 @@
   \renewcommand{\ampedition}{reduced}
 }
 %load misc macros
-\RequirePackage{ampmisc}
+%\RequirePackage{ampmisc}
 \endinput
