@@ -71,7 +71,8 @@ document can be quality printed grayscale.
 instead of TeX Gyre Heros, and Courier instead of Space Mono. The purpose of
 this is so that those three font families do not have to be embedded (every PDF
 viewer has metric compatible equivalents) reducing the file size. Please note
-that LaTeX will still embed Times, Helvetica, and Courier by default.
+that LaTeX will still embed Times, Helvetica, and Courier by default. Please
+read the file [reduced.md](reduced.md)
 
 `edition=sans`  
 &nbsp;&nbsp;&nbsp;&nbsp;  Uses Intel Clear Sans instead of TeX Gyre Termes and
