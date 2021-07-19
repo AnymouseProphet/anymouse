@@ -107,9 +107,14 @@ These bugs are for  `anymouse.sty`
 If the `value` in `edition=value` is not valid, the package does not do the
 right thing. It should die.
 
+[can't be fixed]
 If using LuaLaTeX and `fontspec` is loaded before `anymouse.sty`, then the
-"PDF Base 14" fonts are not with `edition=reduced`.
+"PDF Base 14" fonts are not used with `edition=reduced`.
 
+[can't be fixed]
 If using LuaLaTeX and `fontspec` is loaded after `anymouse.sty`, then the
 output with `edition=reduced` is very broken.
 
+It is not possible to fix those two bugs until fontspec gets the ability to load
+the "PDF Base 14" fonts but it appears the developers have no interest in adding
+Postscript font support.
