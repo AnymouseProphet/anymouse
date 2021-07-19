@@ -79,42 +79,37 @@ to a PDF file, see the [keypair.md](keypair.md) file.
 Future
 ======
 
-Currently `anymouse.sty` font handling is centered around the pdfLaTeX.
-compiler. I would like to port it so that it also works with the LuaLaTeX
-compiler and *maybe* the XeLaTeX compiler.
+Currently `anymouse.sty` and `ampmisc.sty` both work well with pdfLaTeX and
+LuaLaTeX but there are a few caveats with LuaLaTeX:
 
-The `anymouse.sty` is centered around the T1 encoding. It should be ported to
-work with other Latin based encodings as well, such as the T5 encoding used for
-Vietnamese.
+* The "PDF Base 14" fonts are not loaded with fontspec. That is a problem if
+  fontspec is loaded after `anymouse.sty`.
+* The optional Greek and IPA fonts are not loaded with fontspec. That is not a
+  a problem but I would like to have the ability to load them that way.
+
+No testing with XeLaTeX has been done other than to see it did not work. I got
+the error
+
+    ! Extended mathchar used as mathchar (14799933).
+    <to be read again> 
+                       \relax 
+    l.185 ...lone example in this textbook is `$\bm{J}
+                                                  $'.
+
+I do not know if that is specific to the `bm` package or something else.
 
 
 Known Bugs
 ==========
 
-When the "Reduced Italic" option is specified to the `ampmisc.sty` package, the
-`\emph{}` command is redefined to use bold text.
+These bugs are for  `anymouse.sty`
 
-It is currently done incorrectly.
+If the `value` in `edition=value` is not valid, the package does not do the
+right thing. It should die.
 
-When `\emph{}` is used for italicized text:
+If using LuaLaTeX and `fontspec` is loaded before `anymouse.sty`, then the
+"PDF Base 14" fonts are not with `edition=reduced`.
 
-    \emph{This sentence has \emph{double emphasis} in it.}
-
-produces
-
-*This sentence has* double emphasis *in it.*
-
-With the redefined `\emph{}` using bold, it produces:
-
-__This sentence has double emphasis in it.__
-
-when it should produce:
-
-__This sentence has__ double emphasis __in it.__
-
-That bug needs to be fixed.
-
-There's another bug that causes it sometimes to eat the contained whitespace.
-
-Basically I have to recreate the replacement function.
+If using LuaLaTeX and `fontspec` is loaded after `anymouse.sty`, then the
+output with `edition=reduced` is very broken.
 

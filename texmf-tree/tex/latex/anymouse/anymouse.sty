@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\def\fileversion{0.4}
-\def\filedate{2021/07/17}
+\def\fileversion{0.5}
+\def\filedate{2021/07/18}
 \ProvidesPackage{anymouse}[\filedate\space v\fileversion]
 %% Copyright 2021 The Anymouse Prophet
 %
@@ -20,8 +20,20 @@
 % one or both licenses at your discretion.
 %
 \message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Pipfrosch Press publications (anymouseprophet)}
-
-\RequirePackage[utf8]{inputenc}
+%
+\newcommand{\ampfontspecloaded}{no}
+\newcommand{\ampusefontspec}{no}
+%
+\RequirePackage{iftex}
+\ifpdftex
+  %I believe this is the default in modern pdfLaTeX but...
+  \RequirePackage[utf8]{inputenc}
+\else
+  \renewcommand{\ampusefontspec}{yes}
+  \@ifpackageloaded{fontspec}{
+    \renewcommand{\ampfontspecloaded}{yes}
+  }{}
+\fi
 \RequirePackage{kvoptions}
 \RequirePackage{ifthen}
 \RequirePackage{siunitx}
@@ -29,7 +41,7 @@
 \RequirePackage[table,usenames,dvipsnames]{xcolor}
 \RequirePackage{soul}
 \RequirePackage{afterpage}
-% default options
+% default states
 \newcommand{\ampedition}{canonical}
 \newcommand{\textedition}{Canonical PDF}
 \newcommand{\ampcolor}{yes}
@@ -38,6 +50,7 @@
 \newcommand{\tipafonts}{no}
 \newcommand{\lgrgreek}{no}
 \newcommand{\mkisbn}{no}
+\newcommand{\fontsareloaded}{no}
 %
 \define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
 \define@key{amp}{greek}[txr]{\renewcommand{\lgrgreek}{#1}}
@@ -54,7 +67,13 @@
   \ifthenelse{\equal{\ampedition}{reduced}}{
     \renewcommand{\textedition}{Reduced File Size PDF}
     \ifthenelse{\equal{\mathfonts}{yes}}{
-      \IfFileExists{mtpro2.sty}{}{% else
+      \IfFileExists{mtpro2.sty}{
+        \ifthenelse{\equal{\ampfontspecloaded}{no}}{
+          \renewcommand{\ampusefontspec}{no}
+        }{
+          \renewcommand{\ampedition}{notreduced}
+        }
+      }{% else
         \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
         \renewcommand{\ampedition}{notreduced}
       }
@@ -89,67 +108,137 @@
   \RequirePackage{ampean13isbn}
 }{}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The amssymb package has to be loaded before TeX Gyre %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\mathfonts}{yes}}{
-  \RequirePackage{amssymb}
-  \RequirePackage{bm}
+% setup fontenc
+\ifthenelse{\equal{\tipafonts}{yes}}{
+  \RequirePackage[T3]{fontenc}
 }{}
+\ifthenelse{\equal{\lgrgreek}{no}}{}{
+  \RequirePackage[LGR]{fontenc}
+}
+\ifthenelse{\equal{\ampusefontspec}{yes}}{
+  \ifthenelse{\equal{\ampfontspecloaded}{no}}{
+    \RequirePackage{fontspec}
+    \renewcommand{\ampfontspecloaded}{yes}
+  }{}
+}{}
+% last encoding
+\ifthenelse{\equal{\ampfontspecloaded}{yes}}{
+  \RequirePackage[T1,TU]{fontenc}
+}{
+  \RequirePackage[T1]{fontenc}
+}
+\ifthenelse{\equal{\replacefonts}{yes}}{
+  \RequirePackage{substitutefont}
+}{}
+
+
+%%%  font definitions %%%
+\newcommand{\loadreducedfonts}{%
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\rmdefault}{ptm}
+}
+\newcommand{\loadstandardfonts}{%
+  \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
+    \setmainfont
+      [ Ligatures   = TeX ,
+        Extension   = .otf ,
+        UprightFont = *-regular ,
+        ItalicFont  = *-italic ,
+        BoldFont    = *-bold ,
+        BoldItalicFont = *-bolditalic ]
+      {texgyretermes}
+    \setsansfont
+      [ Ligatures   = TeX ,
+        Extension   = .otf ,
+        UprightFont = *-regular ,
+        ItalicFont  = *-italic ,
+        BoldFont    = *-bold ,
+        BoldItalicFont = *-bolditalic ]
+      {texgyreheros}
+  }{% for pdftex
+    \RequirePackage{newtxtext}
+  }
+}
+\newcommand{\loadsansfonts}{%
+  \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
+    %\defaultfontfeatures{
+    %  Ligatures = TeX,
+    %  Extension = .ttf}
+    \setmainfont
+      [ Ligatures   = TeX ,
+        Extension   = .ttf ,
+        UprightFont = *-Regular ,
+        ItalicFont  = *-Italic ,
+        BoldFont    = *-Medium ,
+        BoldItalicFont = *-MediumItalic ]
+      {ClearSans}
+    \setsansfont
+      [ Ligatures   = TeX ,
+        Extension   = .ttf ,
+        UprightFont = *-Regular ,
+        ItalicFont  = *-Italic ,
+        BoldFont    = *-Bold ,
+        BoldItalicFont = *-BoldItalic ]
+      {ClearSans}
+  }{
+    \RequirePackage[sfdefault]{ClearSans}
+  }
+  \RequirePackage{ragged2e}
+  \setlength{\RaggedRightParindent}{\parindent}
+}
+\newcommand{\loadmonofont}{%
+  \ifthenelse{\equal{\ampedition}{reduced}}{
+    \renewcommand{\ttdefault}{pcr}
+  }{
+    \RequirePackage{spacemono}
+  }
+}
+\newcommand{\loadmathfonts}{%
+  \RequirePackage{amssymb}
+  \RequirePackage{amsmath}
+  \RequirePackage{bm}
+  \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
+    \RequirePackage{unicode-math}
+    \defaultfontfeatures{
+      Extension = .otf}
+    \setmathfont{texgyretermes-math.otf}
+  }{
+    \ifthenelse{\equal{\ampedition}{reduced}}{
+      \RequirePackage[lite]{mtpro2}
+      %fix bug in mtpro2 -- see https://tex.stackexchange.com/questions/87419/conflict-between-mathtime-pro-2-refcheck-and-braces-in-text-mode
+      \DeclareRobustCommand\{{\ifmmode\lbrace\else\textbraceleft\fi}
+      \DeclareRobustCommand\}{\ifmmode\rbrace\else\textbraceright\fi}
+    }{
+      \RequirePackage{newtxmath}
+    }
+  }
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the sans-serif, serif fonts, monospace fonts %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\ampedition}{reduced}}{
-  \renewcommand{\sfdefault}{phv}
-  \renewcommand{\rmdefault}{ptm}
-  \renewcommand{\ttdefault}{pcr}
-  \ifthenelse{\equal{\mathfonts}{yes}}{
-    \RequirePackage{amsmath}
-    \RequirePackage[lite]{mtpro2}
-    %fix bug in mtpro2 -- see https://tex.stackexchange.com/questions/87419/conflict-between-mathtime-pro-2-refcheck-and-braces-in-text-mode
-    \DeclareRobustCommand\{{\ifmmode\lbrace\else\textbraceleft\fi}
-    \DeclareRobustCommand\}{\ifmmode\rbrace\else\textbraceright\fi}
-  }{}
-}{% else use the TeX Gyre fonts instead of PDF14
-  \RequirePackage{newtxtext}
-  \ifthenelse{\equal{\mathfonts}{yes}}{
-    \RequirePackage{newtxmath}
-  }{}
-  \RequirePackage{spacemono}
-}
+  \loadreducedfonts
+  \renewcommand{\fontsareloaded}{yes}
+}{}
+\ifthenelse{\equal{\ampedition}{sans}}{
+  \loadsansfonts
+  \renewcommand{\fontsareloaded}{yes}
+}{}
+\ifthenelse{\equal{\fontsareloaded}{no}}{
+  \loadstandardfonts
+  \renewcommand{\fontsareloaded}{yes}
+}{}
+\loadmonofont
+\ifthenelse{\equal{\mathfonts}{yes}}{
+  \loadmathfonts
+}{}
+
 % for reducing the monospace font size
 \LetLtxMacro\oldttfamily\ttfamily
 \DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
 \def\ttsize{\small}
 \newcommand{\setttsize}[1]{\def\ttsize{#1}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Special Case Clear Sans as body font %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\ampedition}{sans}}{
-  \RequirePackage[sfdefault]{ClearSans}
-  \RequirePackage{ragged2e}
-  \setlength{\RaggedRightParindent}{\parindent}
-}{}
-
-% Do we need font encoding substitutes?
-\ifthenelse{\equal{\replacefonts}{yes}}{
-  % either greek or ipa or both
-  \ifthenelse{\equal{\tipafonts}{yes}}{
-    \ifthenelse{\equal{\lgrgreek}{no}}{% ipa only
-      \RequirePackage[T3,T1]{fontenc}
-    }{% greek and ipa
-      \RequirePackage[T3,LGR,T1]{fontenc}
-    }
-  }{%else greek only
-    \RequirePackage[LGR,T1]{fontenc}
-  }
-  \RequirePackage{substitutefont}
-}{
-  % likely not needed but make sure it's most recently loaded
-  \RequirePackage[T1]{fontenc}
-}
 
 %%%%%%%%%%%%%%%%%%%%
 % the tipa package %
@@ -183,7 +272,6 @@
 % reset to reduced
 \ifthenelse{\equal{\ampedition}{notreduced}}{
   \renewcommand{\ampedition}{reduced}
-}
-%load misc macros
-%\RequirePackage{ampmisc}
+}{}
+%
 \endinput

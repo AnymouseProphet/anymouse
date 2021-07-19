@@ -1,8 +1,11 @@
 The `anymouse.sty` Package
 ==========================
 
-This package sets up the fonts for `pdflatex` using a T1 encoding as the primary
-text output encoding.
+If pdfLaTeX is used, this package sets up the necessary fonts using a T1
+encoding as the primary text output encoding.
+
+If LuaLaTeX is used, this package set up the necessary fonts using fontspec
+*except* for optional IPA and Greek fonts.
 
 This package also sets up a few other settings based upon an `edition=value`
 option that allows for relatively easy generation of different versions of a
@@ -183,20 +186,24 @@ Packages Loaded by `anymouse.sty`
 
 The following packages are loaded by `anymouse.sty`:
 
+### `\RequirePackage{iftex}`
+
+Needed to determine the LaTeX engine being used.
 
 ### `\RequirePackage[utf8]{inputenc}`
+
+Only loaded when pdfLaTeX is the engine being used.
 
 I *believe* `utf8` is the default input encoding for modern LaTeX distributions
 but that wasn't always the case. Specifically setting it here makes sure it is
 set to `utf8`.
 
-I set it here so it does not need to be set in the preamble. That way if and
-when this package is ported to support LuaLaTeX and/or XeLaTeX font handling,
-as those compiler *I believe* do not use `inputenc`, documents that use this
-package will work regardless of which compiler is used without needing to worry
-about the differences.
+### `\RequirePackage{fontspec}`
 
-### `\RequirePackage[*T1]{fontenc}`
+Only loaded when LuaLaTeX is the engine being used *and* the `edition` option is
+not set to `reduced` (where using fontspec doesn't make sense)
+
+### `\RequirePackage[*stuff*]{fontenc}`
 
 If the `tipa` option is passed to `anymouse.sty` then the `T3` encoding is
 passed to `fontenc`.
@@ -204,7 +211,14 @@ passed to `fontenc`.
 Ig the `greek` option is passed to `anymouse.sty` then the `LGR` encodinding is
 passed to `fontenc`.
 
-The `T1` encoding is *always* passed to `anymouse.sty` and as the last option.
+There is some public confusion about `fontenc` and `fontspec` having collisions.
+They do not. In fact `fontspec` *uses* `fontenc`.
+
+The issue is that when using `fontspec` you generally should not call `fontenc`
+after `fontspec` or the last encoding passed to `fontenc` might not be the `TU`
+encoding that `fontspec` needs as the last encoding passed to `fonenc`.
+
+This package is careful to avoid that issue.
 
 ### `\RequirePackage{kvoptions}`
 
@@ -226,7 +240,7 @@ documentation at (https://ctan.org/pkg/siunitx)
 
 ### `\RequirePackage{letltxmacro}`
 
-Used to allow reducing the monospace font size.
+Used to allow reducing the monospace font size. This might go away.
 
 ### `\RequirePackage[table,usenames,dvipsnames]{xcolor}`
 
@@ -281,6 +295,13 @@ used by `anymouse.sty`.
 
 For full usage, see the documentation at (https://ctan.org/pkg/amsfonts)
 
+### `\RequirePackage{amsmath}`
+
+Only loaded if the `math` option is passed to `anymouse.sty`. Not specifically
+used by `anymouse.sty`.
+
+For full usage, see the documentation at (https://ctan.org/pkg/amsmath)
+
 ### `\RequirePackage{bm}`
 
 Only loaded if the `math` option is passed to `anymouse.sty`. Not specifically
@@ -288,12 +309,13 @@ used by `anymouse.sty`.
 
 For full usage, see the documentation at (https://ctan.org/pkg/bm)
 
-### `\RequirePackage{amsmath}`
+### `\RequirePackage{unicode-math}`
 
-Only loaded if the `math` option and the `edition=reduced` option is passed to
-`anymouse.sty`. Not specifically used by `anymouse.sty`.
+Only loaded with the LuaLaTeX engine if the `math` option is passed to
+`anymouse.sty` and the `edition=reduced` option is __not__ passed to
+`anymouse.sty`.
 
-For full usage, see the documentation at (https://ctan.org/pkg/amsmath)
+For full usage, see the documentation at (https://ctan.org/pkg/unicode-math)
 
 ### `\RequirePackage[lite]{mtpro2}`
 
@@ -306,18 +328,16 @@ For full usage, see the documentation at (https://www.pctex.com/mtpro2.html)
 
 ### `\RequirePackage{newtxmath}`
 
-Only loaded if the `math` option is passed to `anymouse.sty` but the
-`edition=reduced` option is __NOT__ passed to `anymouse.sty`. Not specifically
-used by `anymouse.sty`.
-
-This package provides function equivalence to `amsmath` and `mtpro2`.
+Only loaded with the pdfLaTeX engine if the `math` option is passed to
+`anymouse.sty` and if the `edition=reduced` option is __NOT__ passed to
+`anymouse.sty`. Not specifically used by `anymouse.sty`.
 
 For full usage, see the documentation at (https://ctan.org/pkg/newtx)
 
 ### `\RequirePackage{newtxtext}`
 
-Only loaded if the `edition=reduced` option is __NOT__ passed to `anymouse.sty`.
-Not specifically used by `anymouse.sty`.
+Only loaded with the pdfLaTeX engine and if the `edition=reduced` option is
+__NOT__ passed to `anymouse.sty`. Not specifically used by `anymouse.sty`.
 
 For full usage, see the documentation at (https://ctan.org/pkg/newtx)
 
@@ -333,10 +353,13 @@ For full usage, see the documentation at
 
 ### `\RequirePackage[sfdefault]{ClearSans}`
 
-Only loaded if the `edition=sans` option is passed to `anymouse.sty`. Not
-specifically used by `anymouse.sty`.
+Only loaded with the pdfLaTeX engine and if the `edition=sans` option is passed
+to `anymouse.sty`. Not specifically used by `anymouse.sty`.
 
 For full usage, see the documentation at (https://www.ctan.org/pkg/clearsans)
+
+However be warned that the plan is to not include this package in the future but
+to instead load the needed fonts for pdfLaTeX directly.
 
 ### `\RequirePackage{ragged2e}`
 
