@@ -92,20 +92,28 @@ can be quality printed grayscale.
 This is a hybrid binary/string option. When not specified or when specified as
 `greek=no` then an LGR encoded Greek font is not set up for use.
 
-When specified without a value as `greek` or when specifying `greek=txr` then
-the `txr` Greek font (a good match for Times/TeX Gyre Termes) is specified as
-the LGR encoded Greek font to use.
+When specified without a value as `greek` or when specifying `greek=artemisia`
+then the `artemisia` Greek font is specified as the LGR encoded Greek font to
+use.
 
-When specifies as `greek=whatever` where the file `lgrwhatever.fd` is known to
+When specified as `greek=whatever` where the file `lgrwhatever.fd` is known to
 the LaTeX system (e.g. `lgrartemisia.fd` or `lgrgentium.fd`) then `whatever` is
 specified as the LGR encoded Greek font to use. If `lgrwhatever.fd` is not known
-to your LaTeX system, then it uses the default `txr` font.
+to your LaTeX system, then it uses the default `artemisia` font.
 
 You can then typeset Greek text via the `\textgreek{}` command. For example
 `\textgreek{Ellhnik'a alf'abhto}` produces: Ελληνικά αλφάβητο
 
 See (http://tug.ctan.org/language/greek/greek-fontenc/lgrenc.def.html) if you
 need assistance in figuring our Latin keyboard to LGR encoding.
+
+You can also use UTF8 Greek if pdfLaTeX is your engine.
+
+If you want to use UTF8 Greek input with LuaLaTeX then do not use `anymouse.sty`
+to set up the Greek fonts, use `amplgrgreek.sty` directly but make sure to load
+it *after* `anymouse` and make sure to specify a font where it knows how to find
+the UTF8 version. See the [amplgrgreek.md] documentation file.
+
 
 ### The `math` option
 
@@ -162,7 +170,7 @@ the option passed to the package with the `edition` key.
 &nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produces a text string `yes` *unless* the
 argument `edition=grayscale` or `edition=sans` was passed as a package option.
 
-`\textgreek[1]{}`  
+`\amptextgreek[1]{}`  
 &nbsp;&nbsp;&nbsp;&nbsp; One argument. Only available when a Greek font has been
 made available. The argument is the text to be typeset using the LGR encoding.
 
@@ -370,11 +378,10 @@ For full usage, see the documentation at (https://www.ctan.org/pkg/ragged2e)
 
 ### `\RequirePackage{substitutefont}`
 
-Only loaded if the `tipa` and or `greek` options are passed to `anymouse.sty`.
+Only loaded if the `tipa` option is passed to `anymouse.sty`.
 
 This package is used to tell the LaTeX font engine where to get the fonts needed
-to render content in the `T3` and `LGR` encoding used for typesetting IPA and
-non-mathematical Greek.
+to render content in the `T3` encoding used for the 8-bit typesetting of IPA.
 
 ### `\RequirePackage[noenc]{tipa}`
 
@@ -383,5 +390,18 @@ used by `anymouse.sty`.
 
 This is the package that provides the `\textipa{}` command. For full usage, see
 the documentation at (https://www.ctan.org/pkg/tipa)
+
+### `\RequirePackage[fontspec=no,lgrfont=\lgrgreek]{amplgrgreek}`
+
+__NOT IN CTAN/TeXLive__
+
+Only loaded if the `greek` option is passed to `anymouse.sty` with an option
+other than `greek=no`.
+
+This is the package that provides the `\amptextgreek{}` command.
+
+See the [amplgrgreek.md](amplgrgreek.md) file for documentation.
+
+
 
 

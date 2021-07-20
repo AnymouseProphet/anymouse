@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\def\fileversion{0.5}
-\def\filedate{2021/07/18}
+\def\fileversion{0.6}
+\def\filedate{2021/07/19}
 \ProvidesPackage{anymouse}[\filedate\space v\fileversion]
 %% Copyright 2021 The Anymouse Prophet
 %
@@ -21,8 +21,8 @@
 %
 \message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Pipfrosch Press publications (anymouseprophet)}
 %
-\newcommand{\ampfontspecloaded}{no}
-\newcommand{\ampusefontspec}{no}
+\providecommand{\ampfontspecloaded}{no}
+\providecommand{\ampusefontspec}{no}
 %
 \RequirePackage{iftex}
 \ifpdftex
@@ -32,7 +32,9 @@
   \renewcommand{\ampusefontspec}{yes}
   \@ifpackageloaded{fontspec}{
     \renewcommand{\ampfontspecloaded}{yes}
-  }{}
+  }{
+    \renewcommand{\ampfontspecloaded}{no}
+  }
 \fi
 \RequirePackage{kvoptions}
 \RequirePackage{ifthen}
@@ -53,7 +55,7 @@
 \newcommand{\fontsareloaded}{no}
 %
 \define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
-\define@key{amp}{greek}[txr]{\renewcommand{\lgrgreek}{#1}}
+\define@key{amp}{greek}[artemisia]{\renewcommand{\lgrgreek}{#1}}
 \define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
 \define@key{amp}{tipa}[]{\renewcommand{\tipafonts}{yes}}
 \define@key{amp}{isbn}[]{\renewcommand{\mkisbn}{yes}}
@@ -61,6 +63,7 @@
 \ProcessKeyvalOptions{amp}
 % post process
 \ifthenelse{\equal{\tipafonts}{yes}}{%
+  \RequirePackage[T3]{fontenc}
   \renewcommand{\replacefonts}{yes}
 }{}
 \ifthenelse{\equal{\ampedition}{canonical}}{}{%change defaults as needed
@@ -96,31 +99,20 @@
     \renewcommand{\textedition}{Hardcover}
   }{}
 }
-\ifthenelse{\equal{\lgrgreek}{no}}{}{%
-  \newcommand{\lgrtestfile}{lgr\lgrgreek .fd}
-  \IfFileExists{\lgrtestfile}{}{% else
-    \PackageWarning{anymouse}{LGR encoding definition \lgrtestfile{} not found, using txr font instead}
-    \renewcommand{\lgrgreek}{txr}
-  }
-  \renewcommand{\replacefonts}{yes}
-}
 \ifthenelse{\equal{\mkisbn}{yes}}{
   \RequirePackage{ampean13isbn}
 }{}
 
-% setup fontenc
-\ifthenelse{\equal{\tipafonts}{yes}}{
-  \RequirePackage[T3]{fontenc}
-}{}
-\ifthenelse{\equal{\lgrgreek}{no}}{}{
-  \RequirePackage[LGR]{fontenc}
-}
+% setup fontenc/fontspec
 \ifthenelse{\equal{\ampusefontspec}{yes}}{
   \ifthenelse{\equal{\ampfontspecloaded}{no}}{
     \RequirePackage{fontspec}
     \renewcommand{\ampfontspecloaded}{yes}
   }{}
 }{}
+
+%\newcommand{\footest}{\fubarnotdefined}
+
 % last encoding
 \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
   \RequirePackage[T1,TU]{fontenc}
@@ -134,8 +126,8 @@
 
 %%%  font definitions %%%
 \newcommand{\loadreducedfonts}{%
-  \renewcommand{\sfdefault}{phv}
   \renewcommand{\rmdefault}{ptm}
+  \renewcommand{\sfdefault}{phv}
 }
 \newcommand{\loadstandardfonts}{%
   \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
@@ -161,9 +153,6 @@
 }
 \newcommand{\loadsansfonts}{%
   \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
-    %\defaultfontfeatures{
-    %  Ligatures = TeX,
-    %  Extension = .ttf}
     \setmainfont
       [ Ligatures   = TeX ,
         Extension   = .ttf ,
@@ -253,20 +242,18 @@
   }
 }{}
 
-%%%%%%%%%%%%%%%%%%%%%
-% LGR Greek support %
-%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\lgrgreek}{no}}{}{% only do this if not no
-  \substitutefont{LGR}{\rmdefault}{\lgrgreek}
-  \substitutefont{LGR}{\sfdefault}{\lgrgreek}
-  \newcommand{\textgreek}[1]{\begingroup\fontencoding{LGR}\selectfont#1\endgroup}
-}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % define type of highlight %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\ampcolor}{yes}}{}{%else
   \renewcommand*{\hl}{\ul}
+}
+
+%%%%%%%%%%%%%%%%%%%%%
+% LGR Greek support %
+%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\lgrgreek}{no}}{}{% only do this if not no
+  \RequirePackage[fontspec=no,lgrfont=\lgrgreek]{amplgrgreek}
 }
 
 % reset to reduced
