@@ -22,27 +22,45 @@
 \message{`anymouse' v\fileversion, \filedate\space Loads fonts and macros for Pipfrosch Press publications (anymouseprophet)}
 %
 \providecommand{\ampfontspecloaded}{no}
-\providecommand{\ampusefontspec}{no}
 %
-\RequirePackage{iftex}
-\ifpdftex
-  %I believe this is the default in modern pdfLaTeX but...
-  \RequirePackage[utf8]{inputenc}
-\else
-  \renewcommand{\ampusefontspec}{yes}
-  \@ifpackageloaded{fontspec}{
-    \renewcommand{\ampfontspecloaded}{yes}
-  }{
-    \renewcommand{\ampfontspecloaded}{no}
-  }
-\fi
-\RequirePackage{kvoptions}
 \RequirePackage{ifthen}
+\RequirePackage{iftex}
+\RequirePackage{kvoptions}
 \RequirePackage{siunitx}
 \RequirePackage{letltxmacro}
 \RequirePackage[table,usenames,dvipsnames]{xcolor}
 \RequirePackage{soul}
 \RequirePackage{afterpage}
+%
+% Font Encoding notes
+%
+% With pdfLaTeX, TeXLive 2021 defaults to OT1 if not specified.
+% With LuaLaTeX, TeXLive 2021 defaults to TU if not specified, even before fontspec is called.
+%
+% If using T4 or T5 the user should \newcommand{\amppdftexenc}{T4} or \newcommand{\amppdftexenc}{T5}
+%  before loading this package so that pdflatex uses right encoding and so that when using LuaLaTeX
+%  the edition=reduced doesn't try to use the "PDF Base 14" Type 1 fonts.
+%
+% The encoding gets set if pdflatex is the compiler.
+%
+\providecommand{\amppdftexenc}{\encodingdefault}%preserve what is already set if already set
+\ifthenelse{\equal{\amppdftexenc}{OT1}}{
+  \renewcommand{\amppdftexenc}{T1}
+}{}
+\ifthenelse{\equal{\amppdftexenc}{TU}}{
+  \renewcommand{\amppdftexenc}{T1}
+}{}
+%
+%
+\ifpdftex
+  % set inputenc and fontence
+  \RequirePackage[utf8]{inputenc}
+  \RequirePackage[\amppdftexenc]{fontenc}
+  \renewcommand{\ampfontspecloaded}{no}
+\else
+  \RequirePackage{fontspec}
+  \renewcommand{\ampfontspecloaded}{yes}
+\fi
 % default states
 \newcommand{\ampedition}{canonical}
 \newcommand{\textedition}{Canonical PDF}
@@ -52,10 +70,9 @@
 \newcommand{\tipafonts}{no}
 \newcommand{\lgrgreek}{no}
 \newcommand{\mkisbn}{no}
-\newcommand{\fontsareloaded}{no}
 %
 \define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
-\define@key{amp}{greek}[artemisia]{\renewcommand{\lgrgreek}{#1}}
+\define@key{amp}{lgrfont}[artemisia]{\renewcommand{\lgrgreek}{#1}}
 \define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
 \define@key{amp}{tipa}[]{\renewcommand{\tipafonts}{yes}}
 \define@key{amp}{isbn}[]{\renewcommand{\mkisbn}{yes}}
@@ -69,18 +86,17 @@
 \ifthenelse{\equal{\ampedition}{canonical}}{}{%change defaults as needed
   \ifthenelse{\equal{\ampedition}{reduced}}{
     \renewcommand{\textedition}{Reduced File Size PDF}
-    \ifthenelse{\equal{\mathfonts}{yes}}{
-      \IfFileExists{mtpro2.sty}{
-        \ifthenelse{\equal{\ampfontspecloaded}{no}}{
-          \renewcommand{\ampusefontspec}{no}
-        }{
+    \ifthenelse{\equal{\amppdftexenc}{T1}}{
+      \ifthenelse{\equal{\mathfonts}{yes}}{
+        \IfFileExists{mtpro2.sty}{}{
+          \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
           \renewcommand{\ampedition}{notreduced}
         }
-      }{% else
-        \PackageWarning{anymouse}{MathTime Pro 2 not available, using TeX Gyre fonts}
-        \renewcommand{\ampedition}{notreduced}
-      }
-    }{}
+      }{}
+    }{
+      \renewcommand{\textedition}{Reduced File Size PDF - \amppdftexenc}
+      \renewcommand{\ampedition}{notreduced}%so it doesn't load the T1 adobe/URW fonts
+    }
   }{}
   \ifthenelse{\equal{\ampedition}{grayscale}}{
     \renewcommand{\textedition}{Grayscale PDF}
@@ -103,29 +119,20 @@
   \RequirePackage{ampean13isbn}
 }{}
 
-% setup fontenc/fontspec
-\ifthenelse{\equal{\ampusefontspec}{yes}}{
-  \ifthenelse{\equal{\ampfontspecloaded}{no}}{
-    \RequirePackage{fontspec}
-    \renewcommand{\ampfontspecloaded}{yes}
-  }{}
-}{}
-
-%\newcommand{\footest}{\fubarnotdefined}
-
-% last encoding
+% reset encoding - this will go away when tipa split out
 \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
-  \RequirePackage[T1,TU]{fontenc}
+  \RequirePackage[\amppdftexenc,TU]{fontenc}
 }{
-  \RequirePackage[T1]{fontenc}
+  \RequirePackage[\amppdftexenc]{fontenc}
 }
 \ifthenelse{\equal{\replacefonts}{yes}}{
   \RequirePackage{substitutefont}
 }{}
 
-
 %%%  font definitions %%%
 \newcommand{\loadreducedfonts}{%
+  % only ever used with T1
+  \RequirePackage[T1]{fontenc}
   \renewcommand{\rmdefault}{ptm}
   \renewcommand{\sfdefault}{phv}
 }
@@ -176,11 +183,7 @@
   \setlength{\RaggedRightParindent}{\parindent}
 }
 \newcommand{\loadmonofont}{%
-  \ifthenelse{\equal{\ampedition}{reduced}}{
-    \renewcommand{\ttdefault}{pcr}
-  }{
-    \RequirePackage{spacemono}
-  }
+  \RequirePackage{spacemono}
 }
 \newcommand{\loadmathfonts}{%
   \RequirePackage{amssymb}
@@ -192,42 +195,24 @@
       Extension = .otf}
     \setmathfont{texgyretermes-math.otf}
   }{
-    \ifthenelse{\equal{\ampedition}{reduced}}{
-      \RequirePackage[lite]{mtpro2}
-      %fix bug in mtpro2 -- see https://tex.stackexchange.com/questions/87419/conflict-between-mathtime-pro-2-refcheck-and-braces-in-text-mode
-      \DeclareRobustCommand\{{\ifmmode\lbrace\else\textbraceleft\fi}
-      \DeclareRobustCommand\}{\ifmmode\rbrace\else\textbraceright\fi}
-    }{
-      \RequirePackage{newtxmath}
-    }
+    \RequirePackage{newtxmath}
   }
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Define the sans-serif, serif fonts, monospace fonts %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\ampedition}{reduced}}{
-  \loadreducedfonts
-  \renewcommand{\fontsareloaded}{yes}
-}{}
-\ifthenelse{\equal{\ampedition}{sans}}{
-  \loadsansfonts
-  \renewcommand{\fontsareloaded}{yes}
-}{}
-\ifthenelse{\equal{\fontsareloaded}{no}}{
-  \loadstandardfonts
-  \renewcommand{\fontsareloaded}{yes}
-}{}
-\loadmonofont
-\ifthenelse{\equal{\mathfonts}{yes}}{
-  \loadmathfonts
-}{}
-
-% for reducing the monospace font size
-\LetLtxMacro\oldttfamily\ttfamily
-\DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
-\def\ttsize{\small}
-\newcommand{\setttsize}[1]{\def\ttsize{#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the main, serif fonts, monospace fonts %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\ampedition}{reduced}}{}{
+  \ifthenelse{\equal{\ampedition}{sans}}{
+    \loadsansfonts
+  }{
+    \loadstandardfonts
+  }
+  \loadmonofont
+  \ifthenelse{\equal{\mathfonts}{yes}}{
+    \loadmathfonts
+  }{}
+}
 
 %%%%%%%%%%%%%%%%%%%%
 % the tipa package %
@@ -253,10 +238,34 @@
 % LGR Greek support %
 %%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\lgrgreek}{no}}{}{% only do this if not no
-  \RequirePackage[fontspec=no,lgrfont=\lgrgreek]{amplgrgreek}
+  \RequirePackage[lgrfont=\lgrgreek]{amplgrgreek}
 }
 
-% reset to reduced
+% hack for Adobe Type 1 fonts when LuaLaTeX is used
+\ifthenelse{\equal{\ampedition}{reduced}}{
+  % only ever used with T1
+  \RequirePackage[T1]{fontenc}
+  \renewcommand{\rmdefault}{ptm}
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\ttdefault}{pcr}
+  \ifthenelse{\equal{\mathfonts}{yes}}{
+    \RequirePackage{amssymb}
+    \RequirePackage{amsmath}
+    \RequirePackage{bm}
+    \RequirePackage[lite]{mtpro2}
+    %fix bug in mtpro2 -- see https://tex.stackexchange.com/questions/87419/conflict-between-mathtime-pro-2-refcheck-and-braces-in-text-mode
+    \DeclareRobustCommand\{{\ifmmode\lbrace\else\textbraceleft\fi}
+    \DeclareRobustCommand\}{\ifmmode\rbrace\else\textbraceright\fi}
+  }{}
+}{}
+
+% for reducing the monospace font size
+\LetLtxMacro\oldttfamily\ttfamily
+\DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
+\def\ttsize{\small}
+\newcommand{\setttsize}[1]{\def\ttsize{#1}}
+
+% reset notreduced to reduced
 \ifthenelse{\equal{\ampedition}{notreduced}}{
   \renewcommand{\ampedition}{reduced}
 }{}

@@ -87,34 +87,25 @@ serif font, justified text, and italicized text. This option also change the
 command to be identical to the `\ul` command. This is done so that the document
 can be quality printed grayscale.
 
-### The `greek` option
+### The `lgrfont` option
 
 I am *probably* going to change the name of this option to `lgrfont`.
 
 This is a hybrid binary/string option. When not specified or when specified as
-`greek=no` then an LGR encoded Greek font is not set up for use.
+`lgrfont=no` then an LGR encoded Greek font is not set up for use.
 
-When specified without a value as `greek` or when specifying `greek=artemisia`
-then the `artemisia` Greek font is specified as the LGR encoded Greek font to
-use.
+When specified without a value as `lgrfont` or when specifying
+`lgrfont=artemisia` then the `artemisia` Greek font is specified as the LGR
+encoded Greek font to use.
 
-When specified as `greek=whatever` where the file `lgrwhatever.fd` is known to
+When specified as `lgrfont=whatever` where the file `lgrwhatever.fd` is known to
 the LaTeX system (e.g. `lgrartemisia.fd` or `lgrgentium.fd`) then `whatever` is
 specified as the LGR encoded Greek font to use. If `lgrwhatever.fd` is not known
 to your LaTeX system, then it uses the default `artemisia` font.
 
-You can then typeset Greek text via the `\textgreek{}` command. For example
-`\textgreek{Ellhnik'a alf'abhto}` produces: Ελληνικά αλφάβητο
+You can then typeset Greek text via the `\amptextgreek{}` command.
 
-See (http://tug.ctan.org/language/greek/greek-fontenc/lgrenc.def.html) if you
-need assistance in figuring our Latin keyboard to LGR encoding.
-
-You can also use UTF8 Greek if pdfLaTeX is your engine.
-
-If you want to use UTF8 Greek input with LuaLaTeX then do not use `anymouse.sty`
-to set up the Greek fonts, use `amplgrgreek.sty` directly but make sure to load
-it *after* `anymouse` and make sure to specify a font where it knows how to find
-the UTF8 version. See the [amplgrgreek.md](amplgrgreek.md) documentation file.
+See [amplgrgreek.md](amplgrgreek.md) for caveats.
 
 
 ### The `math` option
@@ -168,13 +159,17 @@ The following public commands are defined:
 of `canonical`, `printshop`, `grayscale`, `reduced`, or `sans` depending upon
 the option passed to the package with the `edition` key.
 
+`\textedition{}`  
+&nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produced a text string identifying the
+edition in a typesetting form that can be put on the title page etc.
+
 `\ampcolor{}`  
 &nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produces a text string `yes` *unless* the
 argument `edition=grayscale` or `edition=sans` was passed as a package option.
 
 `\setttsize{\small}`  
 &nbsp;&nbsp;&nbsp;&nbsp; Reduces the size of the monospace font, which I find to
-be a little too big compared to the Serif font.
+be a little too big compared to the Serif font. This will likely go away.
 
 Other commands are made available as a result of loaded packages.
 
