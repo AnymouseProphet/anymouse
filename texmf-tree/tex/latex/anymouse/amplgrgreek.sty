@@ -29,7 +29,10 @@
 \providecommand{\ampusefontspec}{no}
 \newcommand{\ampgreekfontname}{artemisia}
 \providecommand{\amppdftexenc}{\encodingdefault}%preserve what is already set if already set
-\ifthenelse{\equal{\encodingdefault}{OT1}} {
+\ifthenelse{\equal{\amppdftexenc}{OT1}}{
+  \renewcommand{\amppdftexenc}{T1}
+}{}
+\ifthenelse{\equal{\amppdftexenc}{TU}}{
   \renewcommand{\amppdftexenc}{T1}
 }{}
 \providecommand{\ampfontspecloaded}{no}%gets redefined later

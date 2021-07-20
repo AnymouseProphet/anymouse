@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \def\fileversion{0.6}
-\def\filedate{2021/07/19}
+\def\filedate{2021/07/20}
 \ProvidesPackage{anymouse}[\filedate\space v\fileversion]
 %% Copyright 2021 The Anymouse Prophet
 %
@@ -94,7 +94,6 @@
         }
       }{}
     }{
-      \renewcommand{\textedition}{Reduced File Size PDF - \amppdftexenc}
       \renewcommand{\ampedition}{notreduced}%so it doesn't load the T1 adobe/URW fonts
     }
   }{}
@@ -130,12 +129,6 @@
 }{}
 
 %%%  font definitions %%%
-\newcommand{\loadreducedfonts}{%
-  % only ever used with T1
-  \RequirePackage[T1]{fontenc}
-  \renewcommand{\rmdefault}{ptm}
-  \renewcommand{\sfdefault}{phv}
-}
 \newcommand{\loadstandardfonts}{%
   \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
     \setmainfont
@@ -183,6 +176,8 @@
   \setlength{\RaggedRightParindent}{\parindent}
 }
 \newcommand{\loadmonofont}{%
+  % fixme - spacemono not suitable for T5 (Vietnamese)
+  %  or T4
   \RequirePackage{spacemono}
 }
 \newcommand{\loadmathfonts}{%
