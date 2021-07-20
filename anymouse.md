@@ -89,6 +89,8 @@ can be quality printed grayscale.
 
 ### The `greek` option
 
+I am *probably* going to change the name of this option to `lgrfont`.
+
 This is a hybrid binary/string option. When not specified or when specified as
 `greek=no` then an LGR encoded Greek font is not set up for use.
 
@@ -112,7 +114,7 @@ You can also use UTF8 Greek if pdfLaTeX is your engine.
 If you want to use UTF8 Greek input with LuaLaTeX then do not use `anymouse.sty`
 to set up the Greek fonts, use `amplgrgreek.sty` directly but make sure to load
 it *after* `anymouse` and make sure to specify a font where it knows how to find
-the UTF8 version. See the [amplgrgreek.md] documentation file.
+the UTF8 version. See the [amplgrgreek.md](amplgrgreek.md) documentation file.
 
 
 ### The `math` option
@@ -169,10 +171,6 @@ the option passed to the package with the `edition` key.
 `\ampcolor{}`  
 &nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produces a text string `yes` *unless* the
 argument `edition=grayscale` or `edition=sans` was passed as a package option.
-
-`\amptextgreek[1]{}`  
-&nbsp;&nbsp;&nbsp;&nbsp; One argument. Only available when a Greek font has been
-made available. The argument is the text to be typeset using the LGR encoding.
 
 `\setttsize{\small}`  
 &nbsp;&nbsp;&nbsp;&nbsp; Reduces the size of the monospace font, which I find to

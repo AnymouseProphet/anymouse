@@ -21,7 +21,7 @@ This package is still in development.
 Commands
 --------
 
-This package provides the single command `amptextgreek{}`
+This package provides the single command `\amptextgreek{}`
 
 
 Package Options
@@ -126,10 +126,11 @@ enter UTF-8 Greek as your input and the LaTeX engine will convert the input to
 LuaLaTeX where UTF-8 is the default input encoding *should* do the same thing
 but it doesn't, it's a serious bug.
 
-With 8-bit Greek fonts, you can use either 8-bit or UTF-8 input with the
-`ampgreektext{}` function but with LuaLaTeX you can only use 8-bit input.
+With 8-bit Greek fonts in pdfLaTeX, you can use either 8-bit or UTF-8 input with
+the `ampgreektext{}` function but with LuaLaTeX you can only use 8-bit input.
 
 Until this bug is fixed, please make sure you use Greek fonts the package knows
-how to set with `fontspec` if you want to use UTF-8 Greek input.
+how to set with `fontspec` if you want to use UTF-8 Greek input. Yes, that
+limits your options. Hopefully the LuaLaTeX developers fix this.
 
 

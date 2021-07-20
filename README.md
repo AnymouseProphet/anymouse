@@ -102,8 +102,8 @@ LuaLaTeX but there are a few caveats with LuaLaTeX:
 
 * The "PDF Base 14" fonts are not loaded with fontspec. That is a problem if
   fontspec is loaded after `anymouse.sty`.
-* The optional Greek and IPA fonts are not loaded with fontspec. That is not a
-  a problem but I would like to have the ability to load them that way.
+* The optional fonts are not loaded with fontspec. That is not a problem but I
+  would like to have the ability to load them that way.
 
 No testing with XeLaTeX has been done other than to see it did not work. I got
 the error
