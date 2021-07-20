@@ -87,25 +87,33 @@ serif font, justified text, and italicized text. This option also change the
 command to be identical to the `\ul` command. This is done so that the document
 can be quality printed grayscale.
 
-### The `greek` option
+### The `lgrfont` and `gkinput` options
 
-This is a hybrid binary/string option. When not specified or when specified as
-`greek=no` then an LGR encoded Greek font is not set up for use.
+`lgrfont` is a hybrid binary/string option. When not specified or when specified
+as `lgrfont=no` then an LGR encoded Greek font is not set up for use.
 
-When specified without a value as `greek` or when specifying `greek=txr` then
-the `txr` Greek font (a good match for Times/TeX Gyre Termes) is specified as
-the LGR encoded Greek font to use.
+When specified without a value as `lgrfont` or when specifying
+`lgrfont=artemisia` then the `artemisia` Greek font is specified as the LGR
+encoded Greek font to use.
 
-When specifies as `greek=whatever` where the file `lgrwhatever.fd` is known to
+When specified as `lgrfont=whatever` where the file `lgrwhatever.fd` is known to
 the LaTeX system (e.g. `lgrartemisia.fd` or `lgrgentium.fd`) then `whatever` is
 specified as the LGR encoded Greek font to use. If `lgrwhatever.fd` is not known
-to your LaTeX system, then it uses the default `txr` font.
+to your LaTeX system, then it uses the default `artemisia` font.
 
-You can then typeset Greek text via the `\textgreek{}` command. For example
-`\textgreek{Ellhnik'a alf'abhto}` produces: Ελληνικά αλφάβητο
+You can then typeset Greek text via the `\amptextgreek{}` command.
 
-See (http://tug.ctan.org/language/greek/greek-fontenc/lgrenc.def.html) if you
-need assistance in figuring our Latin keyboard to LGR encoding.
+If your Greek input will be in the LGR encoding rather than in Unicode, then set
+`gkinput=lgr` so that Unicode fonts will not be used with LuaLaTeX/XeLaTeX.
+
+If your Greek input will be in UTF8 then please make sure to select a font such
+that the `amplgrgreek.sty` package knows how to find the Unicode version when
+LuaLaTeX/XeLaTeX are used.
+
+With pdfLaTeX you can input Greek in LGR or UTF8 regardless of the font.
+
+See [amplgrgreek.md](amplgrgreek.md) for details.
+
 
 ### The `math` option
 
@@ -158,17 +166,17 @@ The following public commands are defined:
 of `canonical`, `printshop`, `grayscale`, `reduced`, or `sans` depending upon
 the option passed to the package with the `edition` key.
 
+`\textedition{}`  
+&nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produced a text string identifying the
+edition in a typesetting form that can be put on the title page etc.
+
 `\ampcolor{}`  
 &nbsp;&nbsp;&nbsp;&nbsp; No arguments. Produces a text string `yes` *unless* the
 argument `edition=grayscale` or `edition=sans` was passed as a package option.
 
-`\textgreek[1]{}`  
-&nbsp;&nbsp;&nbsp;&nbsp; One argument. Only available when a Greek font has been
-made available. The argument is the text to be typeset using the LGR encoding.
-
 `\setttsize{\small}`  
 &nbsp;&nbsp;&nbsp;&nbsp; Reduces the size of the monospace font, which I find to
-be a little too big compared to the Serif font.
+be a little too big compared to the Serif font. This will likely go away.
 
 Other commands are made available as a result of loaded packages.
 
@@ -370,11 +378,10 @@ For full usage, see the documentation at (https://www.ctan.org/pkg/ragged2e)
 
 ### `\RequirePackage{substitutefont}`
 
-Only loaded if the `tipa` and or `greek` options are passed to `anymouse.sty`.
+Only loaded if the `tipa` option is passed to `anymouse.sty`.
 
 This package is used to tell the LaTeX font engine where to get the fonts needed
-to render content in the `T3` and `LGR` encoding used for typesetting IPA and
-non-mathematical Greek.
+to render content in the `T3` encoding used for the 8-bit typesetting of IPA.
 
 ### `\RequirePackage[noenc]{tipa}`
 
@@ -383,5 +390,18 @@ used by `anymouse.sty`.
 
 This is the package that provides the `\textipa{}` command. For full usage, see
 the documentation at (https://www.ctan.org/pkg/tipa)
+
+### `\RequirePackage[fontspec=no,lgrfont=\lgrgreek]{amplgrgreek}`
+
+__NOT IN CTAN/TeXLive__
+
+Only loaded if the `greek` option is passed to `anymouse.sty` with an option
+other than `greek=no`.
+
+This is the package that provides the `\amptextgreek{}` command.
+
+See the [amplgrgreek.md](amplgrgreek.md) file for documentation.
+
+
 
 

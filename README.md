@@ -1,6 +1,8 @@
 Anymouse Prophet LaTeX Files
 ============================
 
+__All files within are VERY UNSTABLE at the moment.__
+
 This is a LaTeX package that sets the fonts and some other macros used by the
 Anymouse Prophet in his writings.
 
@@ -27,6 +29,22 @@ A complimentary file to `anymouse.sty` that defines macros commonly used by the
 Anymouse Prophet in his writings. It is dual-licensed LPPL and MIT.
 
 For usage, see [ampmisc.md](ampmisc.md)
+
+`amplgrgreek.sty`
+-----------------
+
+Sets up the `\amptextgreek{}` command for typesetting (non-math) Greek strings
+when Greek is not the primary language of the document.
+
+Better handling of font setup for Greek strings than what was previously in the
+`anymouse.sty` file.
+
+With pdfLaTeX you can use LGR or UTF8 as the argument. With LuaLaTeX it depends
+upon whether or not the Greek font is loaded by fontspec. If loaded by fontspec
+then only UTF8 Greek strings are supported, if not loaded by fontspec then only
+LGR encoded strings are supported. Hopefully that can get resolved.
+
+For usage, see [amplgrgreek.md](amplgrgreek.md)
 
 
 `ampean13isbn.sty`
@@ -84,8 +102,8 @@ LuaLaTeX but there are a few caveats with LuaLaTeX:
 
 * The "PDF Base 14" fonts are not loaded with fontspec. That is a problem if
   fontspec is loaded after `anymouse.sty`.
-* The optional Greek and IPA fonts are not loaded with fontspec. That is not a
-  a problem but I would like to have the ability to load them that way.
+* The optional fonts are not loaded with fontspec. That is not a problem but I
+  would like to have the ability to load them that way.
 
 No testing with XeLaTeX has been done other than to see it did not work. I got
 the error
@@ -101,6 +119,8 @@ I do not know if that is specific to the `bm` package or something else.
 
 Known Bugs
 ==========
+
+### `anymouse.sty`
 
 These bugs are for  `anymouse.sty`
 
@@ -118,3 +138,21 @@ output with `edition=reduced` is very broken.
 It is not possible to fix those two bugs until fontspec gets the ability to load
 the "PDF Base 14" fonts but it appears the developers have no interest in adding
 Postscript font support.
+
+### `amplgrgreek.sty`
+
+These bugs are for `amplgrgreek.sty`
+
+When `fontspec` loads the Greek font, only UTF8 strings work with the
+`\amptextgreek{}` command. When LuaLaTeX is used but `fontspec` is not used to
+load the font, the only LGR strings work with the `\amptextgreek{}` command.
+
+Currently, the package does not know how to look to see if the actual Unicode
+font file is within the TeX TDS. I suspect there is a way.
+
+Currently, the package only knows how to find the Unicode variants of a few
+fonts. The list will grow.
+
+Some of the fontspec loaded fonts may benefit from tweaking the fontspec
+options.
+
