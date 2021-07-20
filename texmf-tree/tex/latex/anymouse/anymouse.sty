@@ -69,10 +69,12 @@
 \newcommand{\replacefonts}{no}
 \newcommand{\tipafonts}{no}
 \newcommand{\lgrgreek}{no}
+\newcommand{\ampgreekinput}{utf8}
 \newcommand{\mkisbn}{no}
 %
 \define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
 \define@key{amp}{lgrfont}[artemisia]{\renewcommand{\lgrgreek}{#1}}
+\define@key{amp}{gkinput}[utf8]{\renewcommand{\ampgreekinput}{\lowercase{#1}}}
 \define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
 \define@key{amp}{tipa}[]{\renewcommand{\tipafonts}{yes}}
 \define@key{amp}{isbn}[]{\renewcommand{\mkisbn}{yes}}
@@ -233,7 +235,12 @@
 % LGR Greek support %
 %%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\equal{\lgrgreek}{no}}{}{% only do this if not no
-  \RequirePackage[lgrfont=\lgrgreek]{amplgrgreek}
+  %\ampgreekinput
+  \ifthenelse{\equal{\ampgreekinput}{lgr}}{
+    \RequirePackage[fontspec=no,lgrfont=\lgrgreek]{amplgrgreek}
+  }{
+    \RequirePackage[lgrfont=\lgrgreek]{amplgrgreek}
+  }
 }
 
 % hack for Adobe Type 1 fonts when LuaLaTeX is used

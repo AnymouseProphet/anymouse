@@ -87,12 +87,10 @@ serif font, justified text, and italicized text. This option also change the
 command to be identical to the `\ul` command. This is done so that the document
 can be quality printed grayscale.
 
-### The `lgrfont` option
+### The `lgrfont` and `gkinput` options
 
-I am *probably* going to change the name of this option to `lgrfont`.
-
-This is a hybrid binary/string option. When not specified or when specified as
-`lgrfont=no` then an LGR encoded Greek font is not set up for use.
+`lgrfont` is a hybrid binary/string option. When not specified or when specified
+as `lgrfont=no` then an LGR encoded Greek font is not set up for use.
 
 When specified without a value as `lgrfont` or when specifying
 `lgrfont=artemisia` then the `artemisia` Greek font is specified as the LGR
@@ -105,7 +103,16 @@ to your LaTeX system, then it uses the default `artemisia` font.
 
 You can then typeset Greek text via the `\amptextgreek{}` command.
 
-See [amplgrgreek.md](amplgrgreek.md) for caveats.
+If your Greek input will be in the LGR encoding rather than in Unicode, then set
+`gkinput=lgr` so that Unicode fonts will not be used with LuaLaTeX/XeLaTeX.
+
+If your Greek input will be in UTF8 then please make sure to select a font such
+that the `amplgrgreek.sty` package knows how to find the Unicode version when
+LuaLaTeX/XeLaTeX are used.
+
+With pdfLaTeX you can input Greek in LGR or UTF8 regardless of the font.
+
+See [amplgrgreek.md](amplgrgreek.md) for details.
 
 
 ### The `math` option
