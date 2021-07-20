@@ -44,6 +44,8 @@ upon whether or not the Greek font is loaded by fontspec. If loaded by fontspec
 then only UTF8 Greek strings are supported, if not loaded by fontspec then only
 LGR encoded strings are supported. Hopefully that can get resolved.
 
+For usage, see [amplgrgreek.md](amplgrgreek.md)
+
 
 `ampean13isbn.sty`
 ------------------
