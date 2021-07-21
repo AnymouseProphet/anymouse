@@ -66,8 +66,7 @@
 \newcommand{\textedition}{Canonical PDF}
 \newcommand{\ampcolor}{yes}
 \newcommand{\mathfonts}{no}
-\newcommand{\replacefonts}{no}
-\newcommand{\tipafonts}{no}
+\newcommand{\ampipafont}{no}
 \newcommand{\lgrgreek}{no}
 \newcommand{\ampgreekinput}{utf8}
 \newcommand{\mkisbn}{no}
@@ -75,16 +74,12 @@
 \define@key{amp}{edition}[canonical]{\renewcommand{\ampedition}{#1}}
 \define@key{amp}{lgrfont}[artemisia]{\renewcommand{\lgrgreek}{#1}}
 \define@key{amp}{gkinput}[utf8]{\renewcommand{\ampgreekinput}{\lowercase{#1}}}
+\define@key{amp}{ipa}[charis]{\renewcommand{\ampipafont}{#1}}
 \define@key{amp}{math}[]{\renewcommand{\mathfonts}{yes}}
-\define@key{amp}{tipa}[]{\renewcommand{\tipafonts}{yes}}
 \define@key{amp}{isbn}[]{\renewcommand{\mkisbn}{yes}}
 \InputIfFileExists{./anymouse.cfg}{}{}
 \ProcessKeyvalOptions{amp}
 % post process
-\ifthenelse{\equal{\tipafonts}{yes}}{%
-  \RequirePackage[T3]{fontenc}
-  \renewcommand{\replacefonts}{yes}
-}{}
 \ifthenelse{\equal{\ampedition}{canonical}}{}{%change defaults as needed
   \ifthenelse{\equal{\ampedition}{reduced}}{
     \renewcommand{\textedition}{Reduced File Size PDF}
@@ -118,16 +113,6 @@
 }
 \ifthenelse{\equal{\mkisbn}{yes}}{
   \RequirePackage{ampean13isbn}
-}{}
-
-% reset encoding - this will go away when tipa split out
-\ifthenelse{\equal{\ampfontspecloaded}{yes}}{
-  \RequirePackage[\amppdftexenc,TU]{fontenc}
-}{
-  \RequirePackage[\amppdftexenc]{fontenc}
-}
-\ifthenelse{\equal{\replacefonts}{yes}}{
-  \RequirePackage{substitutefont}
 }{}
 
 %%%  font definitions %%%
@@ -211,24 +196,11 @@
   }{}
 }
 
-%%%%%%%%%%%%%%%%%%%%
-% the tipa package %
-%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\tipafonts}{yes}}{
-  \RequirePackage[noenc]{tipa}
-  \ifthenelse{\equal{\ampedition}{reduced}}{% only needed if courier is the monospace font
-    \substitutefont{T3}{\ttdefault}{cmtt}
-  }{% only needed if not using pdf14
-    \substitutefont{T3}{\rmdefault}{ptm}
-    \substitutefont{T3}{\sfdefault}{phv}
-  }
-}{}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% define type of highlight %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\equal{\ampcolor}{yes}}{}{%else
-  \renewcommand*{\hl}{\ul}
+%%%%%%%%%%%%%%%
+% IPA package %
+%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\ampipafont}{no}}{}{% only do this if not no
+  \RequirePackage[unicodefont=\ampipafont]{ampt3ipa}
 }
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -241,6 +213,13 @@
   }{
     \RequirePackage[lgrfont=\lgrgreek]{amplgrgreek}
   }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define type of highlight %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\ampcolor}{yes}}{}{%else
+  \renewcommand*{\hl}{\ul}
 }
 
 % hack for Adobe Type 1 fonts when LuaLaTeX is used

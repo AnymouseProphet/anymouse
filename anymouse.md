@@ -1,8 +1,10 @@
 The `anymouse.sty` Package
 ==========================
 
-If pdfLaTeX is used, this package sets up the necessary fonts using a T1
-encoding as the primary text output encoding.
+If pdfLaTeX is used, this package sets up the necessary fonts using an 8-bit
+encoding as the primary text output encoding. Currently that encoding is the
+T1 encoding but I do hope to add support for T4 and T5 encodings (basically the
+Latin scripts the TeX Gyre fonts work with).
 
 If LuaLaTeX is used, this package set up the necessary fonts using fontspec
 *except* for optional IPA and Greek fonts.
@@ -115,6 +117,18 @@ With pdfLaTeX you can input Greek in LGR or UTF8 regardless of the font.
 See [amplgrgreek.md](amplgrgreek.md) for details.
 
 
+### The `ipa` option
+
+`ipa` is a hybrid binary/string option. When not specified or when specified
+as `ipa=no` then an IPA font is not set up for use.
+
+When `ipa=yes` or `ipa=whatever` then IPA fonts are set up for use.
+
+You can then typeset IPA via the `\amptextipa{}{}` command.
+
+See [ampt3ipa.md](ampt3ipa.md) for details.
+
+
 ### The `math` option
 
 This is a binary option, a value is not necessary. When not present then math
@@ -134,19 +148,6 @@ For `edition=reduced`
 * `amsmath` (math functions and symbols)
 * `mtpro2` (Lite version, math symbols and functions)
 
-### The `tipa` option
-
-This is a binary option, a value is not necessary. When not present then the
-`tipa` package is not loaded.
-
-The `tipa` package is needed to typeset IPA pronunciations. At this time, this
-package only supports using the IPA fonts that come as part of the `tipa`
-package.
-
-To type something in IPA just use `\textipa{}` using the appropriate markup. For
-example `\textipa{/oU"mEg@/}` produces: /oʊˈmɛɡə/
-
-See the `tipa` documentation at (https://ctan.org/pkg/tipa)
 
 ### The `isbn` option
 
@@ -376,13 +377,6 @@ specifically used by `anymouse.sty`.
 
 For full usage, see the documentation at (https://www.ctan.org/pkg/ragged2e)
 
-### `\RequirePackage{substitutefont}`
-
-Only loaded if the `tipa` option is passed to `anymouse.sty`.
-
-This package is used to tell the LaTeX font engine where to get the fonts needed
-to render content in the `T3` encoding used for the 8-bit typesetting of IPA.
-
 ### `\RequirePackage[noenc]{tipa}`
 
 Only loaded if the `tipa` option is passed to `anymouse.sty`. Not specifically
@@ -391,7 +385,19 @@ used by `anymouse.sty`.
 This is the package that provides the `\textipa{}` command. For full usage, see
 the documentation at (https://www.ctan.org/pkg/tipa)
 
-### `\RequirePackage[fontspec=no,lgrfont=\lgrgreek]{amplgrgreek}`
+### `\RequirePackage[unicodefont=\ampipafont]{ampt3ipa}`
+
+__NOT IN CTAN/TeXLive__
+
+Only loaded if the `ips` option is passed to `anymouse.sty` with an option other
+that `ipa=no`.
+
+This is the package that provides the `\amptextipa{}{}` command.
+
+See the [ampt3ipa.md](ampt3ipa.md) file for documentation.
+
+
+### `\RequirePackage[lgrfont=\lgrgreek]{amplgrgreek}`
 
 __NOT IN CTAN/TeXLive__
 
@@ -401,6 +407,12 @@ other than `greek=no`.
 This is the package that provides the `\amptextgreek{}` command.
 
 See the [amplgrgreek.md](amplgrgreek.md) file for documentation.
+
+
+
+
+
+
 
 
 
