@@ -30,6 +30,7 @@ Anymouse Prophet in his writings. It is dual-licensed LPPL and MIT.
 
 For usage, see [ampmisc.md](ampmisc.md)
 
+
 `amplgrgreek.sty`
 -----------------
 
@@ -45,6 +46,18 @@ then only UTF8 Greek strings are supported, if not loaded by fontspec then only
 LGR encoded strings are supported. Hopefully that can get resolved.
 
 For usage, see [amplgrgreek.md](amplgrgreek.md)
+
+
+`ampt3ipa.sty`
+--------------
+
+Sets up the `\amptextipa{}{}` command that allows for portable typesetting of
+IPA content.
+
+Better handling of font setup for IPA strings than what was previously in the
+`anymouse.sty` file.
+
+For usage, see [ampt3ipa.md](ampt3ipa.md)
 
 
 `ampean13isbn.sty`
@@ -96,14 +109,6 @@ to a PDF file, see the [keypair.md](keypair.md) file.
 
 Future
 ======
-
-Currently `anymouse.sty` and `ampmisc.sty` both work well with pdfLaTeX and
-LuaLaTeX but there are a few caveats with LuaLaTeX:
-
-* The "PDF Base 14" fonts are not loaded with fontspec. That is a problem if
-  fontspec is loaded after `anymouse.sty`.
-* The optional fonts are not loaded with fontspec. That is not a problem but I
-  would like to have the ability to load them that way.
 
 No testing with XeLaTeX has been done other than to see it did not work. I got
 the error

@@ -20,7 +20,7 @@ This package provides four commands.
 
 ### `\ampunicodeipa{}`
 
-This command is only available `fontspec` has been loaded before loading the
+This command is only available if `fontspec` has been loaded before loading the
 `ampt3ipa.sty` package. It takes a single argument, a UTF8 encoded IPA string.
 
 Using `\ampunicodeipa{}` breaks compatibility with pdfLaTeX and LuaLaTeX/XeLaTeX
@@ -93,12 +93,11 @@ Unicode Fonts
 -------------
 
 The Unicode fonts must be available within your TDS (TeX Directory Structure).
-Make sure your TeXLive/MiKTeX/Whatever install is complete.
+Make sure your TeXLive/MiKTeX/Whatever install is complete. I do not know which
+MiKTeX package provides them.
 
 Unfortunately Unicode variants of the "TIPA" (TIPA means TeX IPA or Tokyo IPA)
 fonts have not been made available and probably will not be made available.
-
-I do not know which MiKTeX package provides them.
 
 
 8-bit Fonts
