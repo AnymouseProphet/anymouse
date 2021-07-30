@@ -139,6 +139,8 @@
   }
 }
 \newcommand{\loadsansfonts}{%
+  % fixme - clear sans not suitable for T5 (Vietnamese)
+  %  or T4
   \ifthenelse{\equal{\ampfontspecloaded}{yes}}{
     \setmainfont
       [ Ligatures   = TeX ,
@@ -250,5 +252,7 @@
 \ifthenelse{\equal{\ampedition}{notreduced}}{
   \renewcommand{\ampedition}{reduced}
 }{}
-%
+% turn on microtype
+\RequirePackage{microtype}
+% end of style
 \endinput
